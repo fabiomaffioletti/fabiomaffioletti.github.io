@@ -1,0 +1,8 @@
+name: Fabio Maffioletti
+markdown: redcarpet
+pygments: true
+permalink: /blog/:year/:month/:day/:title
+pages_list:
+    About: '/'
+    Curriculum: '/curriculum'
+    Blog: '/blog'

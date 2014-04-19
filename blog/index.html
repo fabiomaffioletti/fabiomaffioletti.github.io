@@ -1,0 +1,25 @@
+---
+layout: default
+title: Blog
+small_title: blog
+variable_link_url: /
+variable_link_label: curriculum
+---
+
+<div class="row">
+	<div class="col-md-12">
+		<h1>Blog Posts</h1>
+		<ul class="list-unstyled">
+			{% for post in site.posts %}
+			<li>
+				<span>{{ post.date | date_to_string }}</span> &raquo; <a href="{{ post.url }}">{{ post.title }}</a>
+				<ul class="list-inline pull-right">
+					{% for category in post.categories %}
+					<li><span class="label label-primary">{{ category }}</span></li>
+					{% endfor %}
+				</ul>
+			</li>
+			{% endfor %}
+		</ul>
+	</div>
+</div>

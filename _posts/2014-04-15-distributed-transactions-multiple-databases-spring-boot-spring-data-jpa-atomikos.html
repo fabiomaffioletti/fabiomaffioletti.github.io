@@ -1,0 +1,371 @@
+---
+layout: post
+title: "Distributed transactions with multiple databases, Spring Boot, Spring Data JPA and Atomikos"
+date: 2014-04-15 16:20:19
+categories: spring-boot spring-data-jpa atomikos
+comments: true
+---
+
+<p>A couple of weeks ago I was evaluating the possibility to use Spring Boot, Spring Data JPA and Atomikos for distributed transactions involving multiple databases. After looking at the <a href="http://spring.io/blog/2011/08/15/configuring-spring-and-jta-without-full-java-ee/" target="_blank">Spring blog article</a> (which involves one database and ActiveMQ) and having done some attempts, I could not get it to work with two databases. The configuration seemed fine, but the Entity Manager did not get notified when persisting my entities. So I wrote <a href="http://stackoverflow.com/questions/22779155/spring-boot-spring-data-jpa-atomikos-multiple-databases-configuration/" target="_blank">this question</a> on StackOverflow, which has been answered directly by <a href="https://twitter.com/david_syer" target="_blank">Dave Syer</a> and <a href="https://twitter.com/olivergierke" target="_blank">Oliver Gierke</a>. This post is to share and discuss the solution.</p>
+
+<h3>Description of the case and entities model</h3>
+<p>We want to be able to save two entities at the same time into two different databases; the operation must be transactional. So, in this example, we have a Customer entity, which is persisted in the first database, and an Order entity which is persisted in the second database. The two entities are very simple, as they serve only as a demonstration.</p>
+<p class="text-center"><img src="/assets/customer-order-databases-1.png"></p>
+<p>The resulting implementation is the following. It's worth noting that they belong to two different packages, for two main reasons:</p>
+<ol>
+	<li>it's a logical separation that gives order to the project</li>
+	<li>each repository will scan packages containing only entities that it will be going to manage</li>
+</ol>
+
+{% highlight java %}
+package com.at.mul.domain.customer;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+@Entity
+@Table(name = "customer")
+@Data
+@EqualsAndHashCode(exclude = { "id" })
+public class Customer {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer id;
+
+	@Column(name = "name", nullable = false)
+	private String name;
+
+	@Column(name = "age", nullable = false)
+	private Integer age;
+
+}
+{% endhighlight %}
+
+{% highlight java %}
+package com.at.mul.domain.order;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+@Entity
+@Table(name = "orders")
+@Data
+@EqualsAndHashCode(exclude = { "id" })
+public class Order {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer id;
+
+	@Column(name = "code", nullable = false)
+	private Integer code;
+
+	@Column(name = "quantity", nullable = false)
+	private Integer quantity;
+
+}
+{% endhighlight %}
+
+<blockquote>
+See <a href="http://projectlombok.org/" target="_blank">Lombok</a> for annotations like <code>@Data</code> and <code>@EqualsAndHashCode</code>
+</blockquote>
+
+<h3>Write repositories interfaces</h3>
+<p>Also in this case it's standard, the only thing to notice is that I put the two interfaces in two different packages. The reason is explained in the next step.</p>
+
+{% highlight java %}
+package com.at.mul.repository.customer;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.at.mul.domain.customer.Customer;
+
+public interface CustomerRepository extends JpaRepository<Customer, Integer> {
+
+}
+{% endhighlight%}
+
+
+{% highlight java %}
+package com.at.mul.repository.order;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.at.mul.domain.order.Order;
+
+public interface OrderRepository extends JpaRepository<Order, Integer> {
+
+}
+{% endhighlight%}
+
+<h3>Write configuration classes</h3>
+This is where it becomes interesting. The <code>@DependsOn("transactionManager")</code> annotation is not mandatory, but I needed this to get rid of several warnings at tests (or application) startup, like <code>WARNING: transaction manager not running?</code> in the logs. The next annotation <code>@EnableJpaRepositories</code> is more important:
+<ul>
+	<li>it specifies which are the packages to scan for annotated components (repository interfaces), and in my case I wanted only repositories related to the <em>customer</em> (and conversely to the <em>order</em>).</li>
+	<li>it specifies which is the entity manager to be used to manage entities, in my case the <code>customerEntityManager</code> for customer related operations and <code>orderEntityManager</code> for order related operations</li>
+	<li>it specifies the transaction manager to be used, in my case the <code>transactionManager</code> defined in the <code>MainConfig</code> class. This needs to be the same for every <code>@EnableJpaRepositories</code> to get distributed transactions working</li>
+</ul>
+
+{% highlight java %}
+package com.at.mul;
+
+import java.util.HashMap;
+
+import javax.sql.DataSource;
+
+import org.h2.jdbcx.JdbcDataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.orm.jpa.JpaVendorAdapter;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+
+import com.at.mul.repository.customer.CustomerDatasourceProperties;
+import com.atomikos.jdbc.AtomikosDataSourceBean;
+
+@Configuration
+@DependsOn("transactionManager")
+@EnableJpaRepositories(basePackages = "com.at.mul.repository.customer", entityManagerFactoryRef = "customerEntityManager", transactionManagerRef = "transactionManager")
+@EnableConfigurationProperties(CustomerDatasourceProperties.class)
+public class CustomerConfig {
+
+	@Autowired
+	private JpaVendorAdapter jpaVendorAdapter;
+
+	@Autowired
+	private CustomerDatasourceProperties customerDatasourceProperties;
+
+	@Bean(name = "customerDataSource", initMethod = "init", destroyMethod = "close")
+	public DataSource customerDataSource() {
+		JdbcDataSource h2XaDataSource = new JdbcDataSource();
+		h2XaDataSource.setURL(customerDatasourceProperties.getUrl());
+
+		AtomikosDataSourceBean xaDataSource = new AtomikosDataSourceBean();
+		xaDataSource.setXaDataSource(h2XaDataSource);
+		xaDataSource.setUniqueResourceName("xads1");
+		return xaDataSource;
+	}
+
+	@Bean(name = "customerEntityManager")
+	@DependsOn("transactionManager")
+	public LocalContainerEntityManagerFactoryBean customerEntityManager() throws Throwable {
+
+		HashMap<String, Object> properties = new HashMap<String, Object>();
+		properties.put("hibernate.transaction.jta.platform", AtomikosJtaPlatform.class.getName());
+		properties.put("javax.persistence.transactionType", "JTA");
+
+		LocalContainerEntityManagerFactoryBean entityManager = new LocalContainerEntityManagerFactoryBean();
+		entityManager.setJtaDataSource(customerDataSource());
+		entityManager.setJpaVendorAdapter(jpaVendorAdapter);
+		entityManager.setPackagesToScan("com.at.mul.domain.customer");
+		entityManager.setPersistenceUnitName("customerPersistenceUnit");
+		entityManager.setJpaPropertyMap(properties);
+		return entityManager;
+	}
+
+}
+{% endhighlight%}
+
+{% highlight java %}
+package com.at.mul;
+
+import java.util.HashMap;
+
+import javax.sql.DataSource;
+
+import org.h2.jdbcx.JdbcDataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.orm.jpa.JpaVendorAdapter;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+
+import com.at.mul.repository.order.OrderDatasourceProperties;
+import com.atomikos.jdbc.AtomikosDataSourceBean;
+
+@Configuration
+@DependsOn("transactionManager")
+@EnableJpaRepositories(basePackages = "com.at.mul.repository.order", entityManagerFactoryRef = "orderEntityManager", transactionManagerRef = "transactionManager")
+@EnableConfigurationProperties(OrderDatasourceProperties.class)
+public class OrderConfig {
+
+	@Autowired
+	private JpaVendorAdapter jpaVendorAdapter;
+
+	@Autowired
+	private OrderDatasourceProperties orderDatasourceProperties;
+
+	@Bean(name = "orderDataSource", initMethod = "init", destroyMethod = "close")
+	public DataSource orderDataSource() {
+		JdbcDataSource h2XaDataSource = new JdbcDataSource();
+		h2XaDataSource.setURL(orderDatasourceProperties.getUrl());
+
+		AtomikosDataSourceBean xaDataSource = new AtomikosDataSourceBean();
+		xaDataSource.setXaDataSource(h2XaDataSource);
+		xaDataSource.setUniqueResourceName("xads2");
+		return xaDataSource;
+	}
+
+	@Bean(name = "orderEntityManager")
+	public LocalContainerEntityManagerFactoryBean orderEntityManager() throws Throwable {
+
+		HashMap<String, Object> properties = new HashMap<String, Object>();
+		properties.put("hibernate.transaction.jta.platform", AtomikosJtaPlatform.class.getName());
+		properties.put("javax.persistence.transactionType", "JTA");
+
+		LocalContainerEntityManagerFactoryBean entityManager = new LocalContainerEntityManagerFactoryBean();
+		entityManager.setJtaDataSource(orderDataSource());
+		entityManager.setJpaVendorAdapter(jpaVendorAdapter);
+		entityManager.setPackagesToScan("com.at.mul.domain.order");
+		entityManager.setPersistenceUnitName("orderPersistenceUnit");
+		entityManager.setJpaPropertyMap(properties);
+		return entityManager;
+	}
+
+}
+{% endhighlight%}
+
+<p>Another important thing here is the definition of the <code>LocalContainerEntityManagerFactoryBean</code>.</p>
+<ul>
+	<li>the <code>@Bean</code> annotation has a given <code>name</code>, that is the one specified in the <code>@EnableJpaRepositories</code> annotation.</li>
+	<li>you need to set some properties to the <code>JpaPropertyMap</code>, in particular you need to say that the transaction type is JTA and that the jta platform is <code>AtomikosJtaPlatform.class.getName()</code></li>
+</ul>
+
+<blockquote>Not setting the second property was the reason why I could not get it work. As Dave Syer wrote "It seems Hibernate4 doesn't work with Atomikos out of the box", so you need to implement the class to be set as <code>hibernate.transaction.jta.platform</code> property by yourself. In my opinion this is not very well documented, but fortunately Oliver Gierke found another <a href="http://stackoverflow.com/questions/20681245/how-to-use-atomikos-transaction-essentials-with-hibernate-4-3/20681497#20681497" target="_blank">StackOverflow discussion</a> about this topic. If you are using another JTA provider, you may find <a href="http://docs.jboss.org/hibernate/orm/4.1/devguide/en-US/html_single/#services-JtaPlatform" target="_blank">this useful</a>.</blockquote>
+
+<h3>Write the AbstractJtaPlatform implementation</h3>
+<p>As said, this is the most important step, as we need to write the implementation of that class by ourselves since Hibernate does not provide it. Here is the resulting code:</p>
+
+{% highlight java %}
+package com.at.mul;
+
+import javax.transaction.TransactionManager;
+import javax.transaction.UserTransaction;
+
+import org.hibernate.engine.transaction.jta.platform.internal.AbstractJtaPlatform;
+
+public class AtomikosJtaPlatform extends AbstractJtaPlatform {
+
+	private static final long serialVersionUID = 1L;
+
+	static TransactionManager transactionManager;
+	static UserTransaction transaction;
+
+	@Override
+	protected TransactionManager locateTransactionManager() {
+		return transactionManager;
+	}
+
+	@Override
+	protected UserTransaction locateUserTransaction() {
+		return transaction;
+	}
+
+}
+{% endhighlight%}
+
+<h3>Write the main configuration class</h3>
+<p>Also in this case it's a pretty standard class, with <code>@EnableTransactionManagement</code> annotation and Atomikos bean definitions. The only <strong>very important</strong> thing to notice is that we need to set <code>AtomikosJtaPlatform.transactionManager</code> and <code>AtomikosJtaPlatform.transaction</code> attributes.</p>
+
+{% highlight java %}
+package com.at.mul;
+
+import javax.transaction.TransactionManager;
+import javax.transaction.UserTransaction;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.orm.jpa.JpaVendorAdapter;
+import org.springframework.orm.jpa.vendor.Database;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.jta.JtaTransactionManager;
+
+import com.atomikos.icatch.jta.UserTransactionImp;
+import com.atomikos.icatch.jta.UserTransactionManager;
+
+@Configuration
+@ComponentScan
+@EnableTransactionManagement
+public class MainConfig {
+
+	@Bean
+	public PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
+		return new PropertySourcesPlaceholderConfigurer();
+	}
+	
+	@Bean
+	public JpaVendorAdapter jpaVendorAdapter() {
+		HibernateJpaVendorAdapter hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
+		hibernateJpaVendorAdapter.setShowSql(true);
+		hibernateJpaVendorAdapter.setGenerateDdl(true);
+		hibernateJpaVendorAdapter.setDatabase(Database.H2);
+		return hibernateJpaVendorAdapter;
+	}
+
+	@Bean(name = "userTransaction")
+	public UserTransaction userTransaction() throws Throwable {
+		UserTransactionImp userTransactionImp = new UserTransactionImp();
+		userTransactionImp.setTransactionTimeout(10000);
+		return userTransactionImp;
+	}
+
+	@Bean(name = "atomikosTransactionManager", initMethod = "init", destroyMethod = "close")
+	public TransactionManager atomikosTransactionManager() throws Throwable {
+		UserTransactionManager userTransactionManager = new UserTransactionManager();
+		userTransactionManager.setForceShutdown(false);
+
+		AtomikosJtaPlatform.transactionManager = userTransactionManager;
+
+		return userTransactionManager;
+	}
+
+	@Bean(name = "transactionManager")
+	@DependsOn({ "userTransaction", "atomikosTransactionManager" })
+	public PlatformTransactionManager transactionManager() throws Throwable {
+		UserTransaction userTransaction = userTransaction();
+
+		AtomikosJtaPlatform.transaction = userTransaction;
+
+		TransactionManager atomikosTransactionManager = atomikosTransactionManager();
+		return new JtaTransactionManager(userTransaction, atomikosTransactionManager);
+	}
+
+}
+{% endhighlight%}
+
+<h3>Resources</h3>
+<div class="row">
+	<div class="col-md-4">
+		<p>Here is the resulting structure of the project:</p>
+		<p><img class="img-thumbnail" src="/assets/customer-order-databases-2.png"></p>
+	</div>
+	<div class="col-md-8">
+		<p>You can see the full source code here: <a href="https://github.com/fabiomaffioletti/mul-at" target="_blank">https://github.com/fabiomaffioletti/mul-at</a>, The <code>master</code> branch uses in memory database. Checkout branch named <code>mysql-db</code> to use real databases (see <code>application.properties</code> to tweak your database connection data).</p>
+	</div>
+</div>
