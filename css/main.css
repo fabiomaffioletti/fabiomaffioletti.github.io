@@ -42,3 +42,7 @@ a.contact {
   text-decoration: none;
   color: #505050;
 }
+
+.spaced {
+  margin-top: 40px;
+}
