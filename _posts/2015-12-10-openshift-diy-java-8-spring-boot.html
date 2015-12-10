@@ -1,0 +1,203 @@
+---
+layout: post
+title: "Deploy a Java 8 Spring Boot application on a DIY Openshift cartridge"
+date: 2015-12-09 11:54:20
+categories: spring-boot openshift java8
+comments: true
+---
+
+<p>As at the time of this writing Openshift DIY cartridge comes with OpenJDK Java 7 installed. During the migration of <a href="http://jsondoc.org" target="_blank">JSONDoc</a> from AppFog to Openshift, I wanted to use Oracle Java 8 instead, so here are the steps I took to do that.</p>
+
+<h3>Have a Spring Boot application</h3>
+<p>I just created a very simple Spring Boot project with name <code>bootjava8</code> in my <code>workspace</code> and added a rest controller in it.</p>
+
+{% highlight java %}
+package me.fabiomaffioletti.bootjava8;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@SpringBootApplication
+public class Bootjava8Application {
+
+    public static void main(String[] args) {
+        SpringApplication.run(Bootjava8Application.class, args);
+    }
+
+    @RestController
+    static class Bootjava8Controller {
+
+        @RequestMapping("/")
+        public ResponseEntity<String> bootjava8() {
+            return ResponseEntity.ok("I'm running on Oracle Java 8");
+        }
+
+    }
+}
+{% endhighlight %}
+
+<h3>Create a DIY app on OpenShift</h3>
+<p>Precondition for this is that you have the <code>rhc</code> client installed. It's very easy to manage your applications with that. So, once you are ready, open a terminal, move to the <code>/tmp</code> directory and create an DIY application:</p>
+{% highlight bash %}
+rhc create-app bootjava8 diy-0.1
+{% endhighlight %}
+
+<p>You should see something like this on your shell:</p>
+
+{% highlight bash %}
+Your application 'bootjava8' is now available.
+
+  URL:        http://bootjava8-fabiomaffioletti.rhcloud.com/
+  SSH to:     566982c489f5cfaac2000085@bootjava8-fabiomaffioletti.rhcloud.com
+  Git remote: ssh://566982c489f5cfaac2000085@bootjava8-fabiomaffioletti.rhcloud.com/~/git/bootjava8.git/
+  Cloned to:  /private/tmp/bootjava8
+{% endhighlight %}
+
+<p>Now move to the the Spring application directory and add the remote OpenShift repository in this way:</p>
+
+{% highlight bash %}
+git init
+git remote add openshift -f ssh://566982c489f5cfaac2000085@bootjava8-fabiomaffioletti.rhcloud.com/~/git/bootjava8.git/
+{% endhighlight %}
+
+<p>OpenShift will update the repository:</p>
+
+{% highlight bash %}
+Updating openshift
+remote: Counting objects: 25, done.
+remote: Compressing objects: 100% (20/20), done.
+remote: Total 25 (delta 1), reused 25 (delta 1)
+Unpacking objects: 100% (25/25), done.
+From ssh://bootjava8-fabiomaffioletti.rhcloud.com/~/git/bootjava8
+ * [new branch]      master     -> openshift/master
+{% endhighlight %}
+
+<p>Now you can merge from the OpenShift repository like this:</p>
+
+{% highlight bash %}
+git merge openshift/master -s recursive -X ours
+{% endhighlight %}
+
+<p>And as result in the project directory, there should be an <code>.openshift</code> directory, that is important, and some other directories (<code>diy</code>, <code>misc</code>) that you can delete or put into <code>.gitignore</code>.</p>
+
+<h3>Create OpenShift action hooks</h3>
+<p>Next step is to create three action hooks, that OpenShift will execute every time something is pushed to its git repository. I'll call them in this way:</p>
+<ul>
+<li><code>build</code>: to install Oracle Java 8 and Maven</li>
+<li><code>start</code>: to start the application</li>
+<li><code>stop</code>: to stop the application</li>
+</ul>
+
+<p>Those action hooks will be created in the <code>.openshift/action_hooks</code> directory.</p>
+
+<h4>The build action hook</h4>
+<p>Copy the <code>start</code> action hook. Call it <code>build</code>.</p>
+
+{% highlight bash %}
+cp .openshift/action_hooks/start .openshift/action_hooks/build
+{% endhighlight %}
+
+<p>Edit the <code>build</code> action hook and put there the instructions to install Maven and Oracle Java 8:</p>
+
+{% highlight bash %}
+#!/bin/bash
+cd $OPENSHIFT_DATA_DIR
+
+if [ ! -d apache-maven-3.3.3 ]; then
+  wget http://www.eu.apache.org/dist/maven/maven-3/3.3.3/binaries/apache-maven-3.3.3-bin.tar.gz
+  tar -zxf apache-maven-3.3.3-bin.tar.gz
+fi
+
+if [ ! -d jdk1.8.0_65 ]; then
+  wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u65-b16/jdk-8u65-linux-i586.tar.gz
+  tar -zxf jdk-8u65-linux-i586.tar.gz
+fi
+{% endhighlight %}
+
+<p>With these Maven and Oracle Java 8 will be installed in the <code>$OPENSHIFT_DATA_DIR</code> directory. The installation will run only the first time the project is pushed to the OpenShift git repository.</p>
+
+<h4>The start action hook</h4>
+<p>Next, edit the <code>start</code> action hook. This will set some environment variables and start the executable Spring Boot jar.</p>
+
+{% highlight bash %}
+#!/bin/bash
+export JAVA_HOME=$OPENSHIFT_DATA_DIR/jdk1.8.0_65
+export PATH=$JAVA_HOME/bin:$PATH
+
+$OPENSHIFT_DATA_DIR/apache-maven-3.3.3/bin/mvn -f $OPENSHIFT_REPO_DIR/pom.xml clean package -s $OPENSHIFT_REPO_DIR/.openshift/settings.xml
+
+nohup java -jar -Dserver.port=${OPENSHIFT_DIY_PORT} -Dserver.address=${OPENSHIFT_DIY_IP} $OPENSHIFT_REPO_DIR/target/*.jar > ${OPENSHIFT_DIY_LOG_DIR}/bootjava8.log 2>&1 &
+{% endhighlight %}
+
+<p>Create a file named <code>settings.xml</code> in the <code>.openshift</code> directory and put this content into it:</p>
+
+{% highlight xml %}
+<settings>
+    <localRepository>$OPENSHIFT_DATA_DIR</localRepository>
+</settings>
+{% endhighlight %}
+
+<p>This will tell OpenShift to use the <code>$OPENSHIFT_DATA_DIR</code> as Maven repository.</p>
+
+<h4>The stop action hook</h4>
+<p>Last action hook is the <code>stop</code> one. It contains instructions on how to stop the java process.</p>
+
+{% highlight bash %}
+#!/bin/bash
+source $OPENSHIFT_CARTRIDGE_SDK_BASH
+PID=$(ps -ef | grep java.*\.jar | grep -v grep | awk '{ print $2 }')
+if [ -z "$PID" ]
+then
+    client_result "Application is already stopped"
+else
+    kill $PID
+fi
+{% endhighlight %}
+
+<h3>Push to the OpenShift remote</h3>
+<p>This is it. Whenever you push something on the <code>openshift</code> remote, the action hooks will be executed and the application will be stopped, built and started. Just create a <code>.gitignore</code> file. Mine contains:</p>
+
+{% highlight bash %}
+.classpath
+.mvn/
+.project
+.settings/
+mvnw
+mvnw.cmd
+target/
+{% endhighlight %}
+
+<p>And then add, commit and push to the <code>openshift</code> remote:</p>
+
+{% highlight bash %}
+git add --all
+git commit -m "Initial commit"
+git push openshift master
+{% endhighlight %}
+
+<p>The application will build, run its tests and start. It is possible to tail the logs by doing:</p>
+
+{% highlight bash %}
+rhc tail bootjava8
+{% endhighlight %}
+
+<p>That will output something like:</p>
+
+{% highlight bash %}
+==> app-root/logs/bootjava8.log <==
+2015-12-10 09:31:53.448  INFO 157638 --- [           main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2015-12-10 09:31:53.843  INFO 157638 --- [           main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2015-12-10 09:31:53.843  INFO 157638 --- [           main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2015-12-10 09:31:54.038  INFO 157638 --- [           main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2015-12-10 09:31:54.919  INFO 157638 --- [           main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2015-12-10 09:31:55.329  INFO 157638 --- [           main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8080 (http)
+2015-12-10 09:31:55.340  INFO 157638 --- [           main] m.f.bootjava8.Bootjava8Application       : Started Bootjava8Application in 17.702 seconds (JVM running for 19.629)
+2015-12-10 09:32:12.568  INFO 157638 --- [129-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring FrameworkServlet 'dispatcherServlet'
+2015-12-10 09:32:12.568  INFO 157638 --- [129-8080-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization started
+2015-12-10 09:32:12.709  INFO 157638 --- [129-8080-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization completed in 140 ms
+{% endhighlight %}
+
+<p>At the end the application will be available on <code>http://bootjava8-fabiomaffioletti.rhcloud.com/</code></p>
