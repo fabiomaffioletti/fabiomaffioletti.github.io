@@ -6,7 +6,7 @@ categories: spring-boot mock wiremock testing
 comments: true
 ---
 
-<p>Suppose you are developing a Spring Boot client application that needs to communicate with a remote server API. You are for sure going to write a communication layer (let's call it <code>Repository</code>) between you application and the server, and you are going to test it in some way. So you need to <i>simulate</i> the server behavior i.e. responses and you have some ways to do this in a unit test:</p>
+<p>Suppose you are developing a Spring Boot client application that needs to communicate with a remote server API. You are for sure going to write a communication layer (let's call it <code>Repository</code>) between your application and the server, and you are going to test it in some way. So you need to <i>simulate</i> the server behavior i.e. responses and you have some ways to do this in a unit test:</p>
 <ul>
 	<li>you can use Mockito to mock the RestTemplate</li>
 	<li>you can use Mockito to mock the Repositories, even if in this case you are not calling the RestTemplate so you overtake some of the application logic</li>
