@@ -11,7 +11,7 @@ comments: true
 	<li>you can use Mockito to mock the RestTemplate</li>
 	<li>you can use Mockito to mock the Repositories, even if in this case you are not calling the RestTemplate so you overtake some of the application logic</li>
 </ul>
-<p>But if you want to load the Spring context and build a sort of integration test, you have this alternatives:</p>
+<p>But if you want to load the Spring context and build a sort of integration test, you have these alternatives:</p>
 <ul>
 	<li>use the <code>@MockBean</code> annotation to mock the Repository response, but also in this case you are not calling the RestTemplate and thus overtaking some of the application logic</li>
 	<li>start a mock server like <a href="http://wiremock.org/" target="_blank">WireMock</a> or <a href="http://www.mock-server.com/" target="_blank">MockServer</a> and mock the responses there, even if this causes problems if you need to refresh the Spring context, so you need to manage the start/stop/restart phases by yourself</li>
@@ -443,8 +443,8 @@ Expected :http://localhost:9000/products
 Actual   :http://localhost:9000/products/1
 {% endhighlight %}
 
-<p>This happend because the MockRestServiceServer expectations have an order, that is following the creation and addition order specified in the <code>MockRemoteServerConfiguration</code> definition. You can pass an argument to the <p>MockRestServiceServer</p> build method, to specify which "expectation manager" you want to use. Spring gives you two: <code>SimpleRequestExpectationManager</code> which is the deafult one, and <code>UnorderedRequestExpectationManager</code>. Both count the number of expected calls to the mock server expectation and try to match it with the actual number of calls happened during the test. The difference between the two is that <code>UnorderedRequestExpectationManager</code> ignores the declaration order.</p>
-<p>So, if you know how many calls are made to the mock server in the whole test suite, you can try to use <code>UnorderedRequestExpectationManager</code> and specify, for each expectation, the number of expected calls, in the <code>times()</code> method. Unfortunately this is not my case because I don't know how many calls are made to each ednpoint and in which order they are made, so I made my own implementation of the <code>AbstractRequestExpectationManager</code> which is actually an extension of the <code>UnorderedRequestExpectationManager</code>.</p>
+<p>This happend because the MockRestServiceServer expectations have an order, that is following the creation and addition order specified in the <code>MockRemoteServerConfiguration</code> definition. You can pass an argument to the <code>MockRestServiceServer</code> build method, to specify which "expectation manager" you want to use. Spring gives you two: <code>SimpleRequestExpectationManager</code> which is the deafult one, and <code>UnorderedRequestExpectationManager</code>. Both count the number of expected calls to the mock server expectation and try to match it with the actual number of calls happened during the test. The difference between the two is that <code>UnorderedRequestExpectationManager</code> ignores the declaration order.</p>
+<p>So, if you know how many calls are made to the mock server in the whole test suite, you can try to use <code>UnorderedRequestExpectationManager</code> and specify, for each expectation, the number of expected calls, in the <code>times()</code> method. Unfortunately this is not my case because I don't know how many calls are made to each endpoint and in which order they are made, so I made my own implementation of the <code>AbstractRequestExpectationManager</code> which is actually an extension of the <code>UnorderedRequestExpectationManager</code>.</p>
 
 {% highlight java %}
 package me.fabiomaffioletti.msc;
