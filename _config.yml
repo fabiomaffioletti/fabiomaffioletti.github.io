@@ -1,7 +1,7 @@
 name: Fabio Maffioletti
 markdown: redcarpet
 highlighter: pygments
-permalink: /blog/:year/:month/:day/:title
+permalink: /blog/:year/:month/:day/:title/
 pages_list:
     About: '/'
     Curriculum: '/curriculum'
