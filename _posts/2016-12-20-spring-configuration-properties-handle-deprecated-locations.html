@@ -1,0 +1,180 @@
+---
+layout: post
+title: "Handle locations deprecation of Spring Boot @ConfigurationProperties"
+date: 2016-12-20 21:15:43
+categories: spring-boot configuration
+comments: true
+---
+
+<p>One of things changed in Spring Boot 1.4.0 is the deprecation of the <code>locations</code> property of the <code>@ConfigurationProperties</code> annotation. Some discussion around this topic happened <a href="https://github.com/spring-projects/spring-boot/issues/6220" target="_blank">here</a> and <a href="https://github.com/spring-projects/spring-boot/issues/6726" target="_blank">here</a>.</p> The explanation given by Spring's developers is understandable and I think they are right, but I also think that there are cases in which a project has a "long configuration" made of many different keys, which have been spread into several files, semantically named, and bound to pojos injected into applications beans.<p>So, I'll try to explain what I understood: <code>@ConfigurationProperties</code> represent the <i>application configuration</i>, which is made of data source connections, jackson configuration, http configuration and so on, so it refers to the <i>environment</i> in which the application will run. This is different from the <i>application behavior</i>, or <i>behavior configuration</i>, or <i>application properties</i>, which represent the configuration of the business logic of the application (not the application itself). In other words it was possible to use the <code>@ConfigurationProperties</code> annotation to load and keep in memory a lot of stuff that was not strictly related to the application itself, but to its <i>behavior</i>.</p>
+
+<h3>An Example</h3>
+<p>An example? Take this simple use case: you have users in your application, and each of them has an homepage which responds to <code>/users/{id}</code>. Now, for whatever reason, you need to redirect old user pages to new ones, for example <code>/users/45699</code> would be redirected to <code>/users/7534</code>. This must be done for many many users, but not for all of them. So basically in your controller, you need to check if the <code>{id}</code> path variable is contained in the list of <i>redirectable</i> users, and in that case generate a <code>RedirectView</code> instead of a plain <code>ModelAndView</code>.</p>
+
+<p>I imagine a map, where the key is the <i>old</i> user id, and the value is the <i>new</i> user id. You can store this map wherever you want (database, nosql, etc). I decided to take advantage of the <code>@ConfigurationProperties</code> annotation, and store this in a yml file. That file was then bound to a Java class annotated with <code>@Component</code> and <code>@ConfigurationProperties</code>, which was then injected in the controller and that gave me a very easy way to get the <i>redirection map</i> in my business logic. Moreover I did not have the need to ask for a database (or any other storage option).</p>
+<p>So, how did the <code>@ConfigurationProperties</code> annotation look like? It was like this: <code>@ConfigurationProperties(locations = "classpath:config/redirection/old2new.yml")</code>. With the <i>locations</i> deprecation, in Spring 1.5 it will not be possible to do this again, and this is a problem for several application already running in production.</p>
+
+<h2>A proposed solution</h2>
+<p>I took a look at what Spring is currently doing and I decided to develop a class to let me keep the previous behavior (or at least the most part). Actually one class and one annotation.</p>
+<h3>@ApplicationProperties</h3>
+<p>This annotation is very similar to the <code>@ConfigurationProperties</code> one. It lets you annotate your class and say it is a <code>@Component</code></p>
+
+{% highlight java %}
+
+import org.springframework.stereotype.Component;
+
+import java.lang.annotation.*;
+
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+@Component
+public @interface ApplicationProperties {
+
+    String[] locations();
+
+    String prefix() default "";
+
+}
+
+{% endhighlight %}
+
+<h3>ApplicationPropertiesBindingPostProcessor</h3>
+<p>The class instead gets all the classes annotated with <code>@ApplicationProperties</code> annotation, binds them to a Java pojo and then registers them as resolvable dependencies.</p>
+
+{% highlight java %}
+
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanCreationException;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.boot.bind.PropertiesConfigurationFactory;
+import org.springframework.boot.env.PropertySourcesLoader;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.EnvironmentAware;
+import org.springframework.context.ResourceLoaderAware;
+import org.springframework.core.convert.support.DefaultConversionService;
+import org.springframework.core.env.Environment;
+import org.springframework.core.env.MutablePropertySources;
+import org.springframework.core.env.PropertySources;
+import org.springframework.core.env.StandardEnvironment;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.util.ClassUtils;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.BindException;
+
+import javax.annotation.PostConstruct;
+import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Map;
+
+/**
+ * Converts properties files to objects and registers them as resolvable dependencies.
+ * See ConfigurationPropertiesBindingPostProcessor for the deprecated implementation.
+ *
+ */
+public class ApplicationPropertiesBindingPostProcessor implements BeanFactoryAware, ApplicationContextAware, ResourceLoaderAware, EnvironmentAware {
+
+    private BeanFactory beanFactory;
+
+    private ApplicationContext applicationContext;
+
+    private ResourceLoader resourceLoader = new DefaultResourceLoader();
+
+    private Environment environment = new StandardEnvironment();
+
+    @PostConstruct
+    public void init() throws IOException, IllegalAccessException, InvocationTargetException, InstantiationException, NoSuchMethodException, BindException {
+        Map<String, Object> beansWithAnnotation = applicationContext.getBeansWithAnnotation(ApplicationProperties.class);
+
+        for (String beanName : beansWithAnnotation.keySet()) {
+            Class<?> clazz = beansWithAnnotation.get(beanName).getClass();
+            Object newInstance = bindPropertiesToTarget(clazz);
+
+            ConfigurableListableBeanFactory configurableListableBeanFactory = (ConfigurableListableBeanFactory) beanFactory;
+            configurableListableBeanFactory.registerResolvableDependency(clazz, newInstance);
+        }
+
+    }
+
+    private Object bindPropertiesToTarget(Class<?> clazz) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, BindException {
+        ApplicationProperties applicationProperties = clazz.getAnnotation(ApplicationProperties.class);
+
+        Constructor<?> constructor = clazz.getConstructor();
+        Object newInstance = constructor.newInstance();
+
+        PropertiesConfigurationFactory<Object> factory = new PropertiesConfigurationFactory<>(newInstance);
+        factory.setPropertySources(loadPropertySources(applicationProperties.locations()));
+        factory.setConversionService(new DefaultConversionService());
+        if (StringUtils.hasLength(applicationProperties.prefix())) {
+            factory.setTargetName(applicationProperties.prefix());
+        }
+        try {
+            factory.bindPropertiesToTarget();
+        } catch (Exception ex) {
+            String targetClass = ClassUtils.getShortName(clazz);
+            throw new BeanCreationException(clazz.getSimpleName(), "Could not bind properties to " + targetClass + " (" + applicationProperties.toString() + ")", ex);
+        }
+        return newInstance;
+    }
+
+    private PropertySources loadPropertySources(String[] locations) {
+        try {
+            PropertySourcesLoader loader = new PropertySourcesLoader();
+            for (String location : locations) {
+                Resource resource = this.resourceLoader.getResource(this.environment.resolvePlaceholders(location));
+                loader.load(resource);
+            }
+            MutablePropertySources loaded = loader.getPropertySources();
+            return loaded;
+        }
+        catch (IOException ex) {
+            throw new IllegalStateException(ex);
+        }
+    }
+
+    @Override
+    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+        this.beanFactory = beanFactory;
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
+    }
+
+    @Override
+    public void setResourceLoader(ResourceLoader resourceLoader) {
+        this.resourceLoader = resourceLoader;
+    }
+
+    @Override
+    public void setEnvironment(Environment environment) {
+        this.environment = environment;
+    }
+
+}
+{% endhighlight %}
+
+<h3>Register ApplicationPropertiesBindingPostProcessor as a Bean</h3>
+<p>Last thing to do is to let my application know that there is a new bean of type ApplicationPropertiesBindingPostProcessor in the context.</p>
+
+{% highlight java %}
+
+@Bean
+public ApplicationPropertiesBindingPostProcessor applicationPropertiesBindingPostProcessor() {
+    return new ApplicationPropertiesBindingPostProcessor();
+}
+
+{% endhighlight %}
+
+<h3>Usage</h3>
+<p>You can now replace the <code>@ConfigurationProperties</code> with <code>@ApplicationProperties</code>, and in most cases it should continue to work exactly as before. And, of the same importance, you are one step closer to upgrade to Spring Boot 1.5.</p>
+
+<h3>Resources</h3>
+<p>You can find the example project <a href="https://github.com/fabiomaffioletti/spring-application-properties" target="_blank">here</a> along with tests and example files.</p>
