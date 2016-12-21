@@ -11,7 +11,7 @@ comments: true
 
 <h3>Description of the case and entities model</h3>
 <p>We want to be able to save two entities at the same time into two different databases; the operation must be transactional. So, in this example, we have a Customer entity, which is persisted in the first database, and an Order entity which is persisted in the second database. The two entities are very simple, as they serve only as a demonstration.</p>
-<p class="text-center"><img src="/assets/customer-order-databases-1.png"></p>
+<p class="text-center"><img alt="Custom order database 1" src="/assets/customer-order-databases-1.png"></p>
 <p>The resulting implementation is the following. It's worth noting that they belong to two different packages, for two main reasons:</p>
 <ol>
 	<li>it's a logical separation that gives order to the project</li>
@@ -364,7 +364,7 @@ public class MainConfig {
 <div class="row">
 	<div class="col-md-4">
 		<p>Here is the resulting structure of the project:</p>
-		<p><img class="img-thumbnail" src="/assets/customer-order-databases-2.png"></p>
+		<p><img class="img-thumbnail" alt="Custom order database 2" src="/assets/customer-order-databases-2.png"></p>
 	</div>
 	<div class="col-md-8">
 		<p>You can see the full source code here: <a href="https://github.com/fabiomaffioletti/mul-at" target="_blank">https://github.com/fabiomaffioletti/mul-at</a>, The <code>master</code> branch uses in memory database. Checkout branch named <code>mysql-db</code> to use real databases (see <code>application.properties</code> to tweak your database connection data).</p>
