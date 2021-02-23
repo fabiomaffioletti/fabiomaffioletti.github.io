@@ -9,10 +9,8 @@ variable_link_label: curriculum
 
 <div class="row">
 	<div class="col-md-12">
-		<h1>Blog Posts</h1>
-		<small><i>This is a personal weblog. The opinions expressed here represent my own and not those of my employer.</i></small>
-		<br/><br/>
-		<ul class="list-unstyled">
+		<i>This is a personal weblog. The opinions expressed here represent my own and not those of my employer</i>
+		<!--<ul class="list-unstyled">
 			{% for post in site.posts %}
 			<li>
 				<span>{{ post.date | date_to_string }}</span> &raquo; <a href="{{ post.url }}">{{ post.title }}</a>
@@ -23,6 +21,23 @@ variable_link_label: curriculum
 				</ul>
 			</li>
 			{% endfor %}
-		</ul>
+		</ul>-->
 	</div>
+</div>
+
+<div class="spaced">
+	{% for post in site.posts %}
+	<div class="row">
+		<div class="col-sm-12 col-md-8">
+			<span>{{ post.date | date_to_string }}</span> &raquo; <a href="{{ post.url }}">{{ post.title }}</a>
+		</div>
+		<div class="col-sm-12 col-md-4">
+			<ul class="list-inline mb-sm-2">
+				{% for category in post.categories %}
+				<li class="list-inline-item"><span class="badge bg-primary">{{ category }}</span></li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+	{% endfor %}
 </div>
