@@ -18,7 +18,7 @@ function App() {
             {
               name: "Senior Engineering Manager",
               description: [
-                "Led the largest and most strategic product area, managed and mentored managers and 4 cross-functional teams",
+                "Led the Customer Service product area (Helpdesk and AI), managed and mentored managers and 4 cross-functional teams",
                 "Collaborated with multiple PMs, designers and UX researchers to over deliver quarterly OKRs",
                 "Reduced cycle time by ~60% fostering XP and Lean best practices and streamlining teams’ processes",
                 "Reduced by 70% the bugs backlog by promoting QA shift-left, dogfooding and ensuring time for quality work",
