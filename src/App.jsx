@@ -18,14 +18,25 @@ function App() {
             {
               name: "Senior Engineering Manager",
               description: [
-                "Led the Customer Service product area (Helpdesk and AI), managed and mentored managers and 4 cross-functional teams",
-                "Collaborated with multiple PMs, designers and UX researchers to over deliver quarterly OKRs",
-                "Reduced cycle time by ~60% fostering XP and Lean best practices and streamlining teams’ processes",
-                "Reduced by 70% the bugs backlog by promoting QA shift-left, dogfooding and ensuring time for quality work",
-                "Empowered engineers and fostered a culture of full self-organization and autonomy"
+                "Led the engineering organization, managed 4 Senior Engineering Managers, 1 Agile Coach, 40 engineers",
+                "Optimized the org to maximize business impact, align with product strategy and improve developer experience"
+              ],
+              from: "August 2024",
+              to: "Present"
+            },
+            {
+              name: "Senior Engineering Manager",
+              description: [
+                "Led 2 strategic product areas, coached and mentored managers and 4 cross-functional teams",
+                "Collaborated cross-functionally with multiple PMs, designers and UX researchers",
+                "Improved cycle time by ~60% fostering XP and Lean best practices and streamlining teams’ and org’s processes",
+                "Reduced bugs by 70% by promoting QA shift-left, dogfooding/shadowing and ensuring time for quality work",
+                "Fostered a culture of full self-organization and autonomy based on engineers empowerment",
+                "Partnered with the CTO to inject modern management and customer centric culture",
+                "Achieved the highest eNPS (8.84 out of 10) of the whole tech org; retained 100% of talents"
               ],
               from: "October 2023",
-              to: "Present"
+              to: "August 2024"
             }
           ]
         },
