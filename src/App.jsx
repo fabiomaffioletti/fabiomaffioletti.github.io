@@ -16,7 +16,7 @@ function App() {
           name: "Tidio",
           roles: [
             {
-              name: "Senior Engineering Manager",
+              name: "Head of Engineering",
               description: [
                 "Led the engineering organization, managed 4 Senior Engineering Managers, 1 Agile Coach, 40 engineers",
                 "Optimized the org to maximize business impact, align with product strategy and improve developer experience"
