@@ -24,7 +24,7 @@ function App() {
                 "Reduced security issues by ~60% by creating and implementing a structured vulnerabilities management process",
                 "Ensured 100% of users issues were addressed by structuring software ownership according to DDD principles",
                 "Collaborated successfully with multiple departments like Product, Support and HR",
-                "Reached all-time-high in engineering eNPS (8.40 out of 10); retained 100% of talents"
+                "Reached all-time-high eNPS of 9.23 out of 10 while retaining 100% of talents"
               ],
               from: "August 2024",
               to: "Present"
