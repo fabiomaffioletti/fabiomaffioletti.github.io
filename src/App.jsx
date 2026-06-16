@@ -18,13 +18,13 @@ function App() {
             {
               name: "Head of Engineering",
               description: [
-                "Led the engineering organization, managed a multicultural team of 4 Senior EMs, 1 Agile Coach, 32 ICs",
-                "Designed and executed technical strategy and engineering roadmap aligned with business in terms of product quality and performances, security and reliability",
-                "Accomplished a ~70% reduction of global defects and reduced response time to critical support requests by ~95%",
+                "Led and scaled the engineering organization, a multicultural team of 5 Senior EMs, 1 Agile Coach, 42 ICs",
+                "Designed and executed technical strategy and engineering roadmap aligned with business which enabled acquisition of premium customers and SOC 2 Type 2 certification",
+                "Aligned with Product and Support to prioritize quality initiatives, accomplishing a ~70% reduction of global defects and reducing response time to critical requests by ~95%, cutting support costs, improving NPS and ensuring SLA compliance for enterprise/premium customers",
                 "Reduced security issues by ~60% by creating and implementing a structured vulnerabilities management process",
-                "Ensured 100% of users issues were addressed by structuring software ownership according to DDD principles",
-                "Collaborated successfully with multiple departments like Product, Support and HR",
-                "Reached all-time-high eNPS of 9.23 out of 10 while retaining 100% of talents"
+                "Promoted AI adoption by championing tools such as Claude, GitHub Copilot, Cursor, CodeRabbit/GitLab Duo to accelerate productivity and code quality",
+                "Guided the evolution of the engineering department around cross-functional value streams, agility and lean, ensuring 100% of users issues were addressed by structuring software architecture according to DDD principles",
+                "Reached and maintained the company's all-time-high eNPS (9.29 out of 10); retained 100% of talents"
               ],
               from: "August 2024",
               to: "Present"
@@ -172,11 +172,6 @@ function App() {
       "System design, Java, Spring, Python, Redis, MySQL, Elasticsearch, RabbitMQ, Docker, TDD, DDD, CI/CD"
     ],
     links: [
-      {
-        title: "Wineries on the Road",
-        description: "Android application to explore and visit Italian wineries",
-        href: "https://play.google.com/store/apps/details?id=com.cantineontheroad"
-      },
       {
         title: "JSONDoc",
         description: "Java and Spring library to document API endpoints",
