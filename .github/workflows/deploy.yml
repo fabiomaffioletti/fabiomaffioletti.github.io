@@ -33,19 +33,25 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: 'npm'
       - name: Install dependencies
         run: npm ci
+      - name: Lint
+        run: npm run lint
+      - name: Typecheck
+        run: npm run typecheck
       - name: Build
         run: npm run build
+      - name: Verify build artifact
+        run: npm run verify:build
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload dist folder
-          path: './dist'
+          # Upload the static export
+          path: './out'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
