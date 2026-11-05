@@ -12,13 +12,13 @@ export default function Summary() {
         <p>
           Technology leader with {yearsSinceStart}+ years of experience driving
           engineering excellence, building high-performing teams, and delivering
-          scalable software solutions. Executive Coach (Escuela Europea de
-          Coaching), customer and business driven, people-centric manager of
-          multicultural, cross-functional, co-located and remote agile
-          development teams for start/scale-ups and enterprises. Track record of
-          aligning technical strategy with business outcomes — enabling market
-          expansion, premium customer acquisition and SOC 2 certification — while
-          building high-trust, high-performing cultures (eNPS 9.29/10).
+          scalable software solutions. Executive Coach, customer and
+          business-driven, people-centric manager of multicultural AI-powered and
+          AI-native teams. Track record of leveraging AI strategy and governance
+          to drive organizational transformation (+125% throughput, $500K+
+          annualized cost avoidance, Shadow AI elimination) and aligning tech with
+          business outcomes (SOC 2, market expansion) while sustaining high-trust
+          cultures (eNPS 9.29/10).
         </p>
       </div>
     </div>
