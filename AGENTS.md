@@ -19,3 +19,4 @@ Single-context: `GLOSSARY.md` and `docs/adr/` at the repo root. See `docs/agents
 - Always work on a feature branch; never commit directly to `master`.
 - Open a pull request for the work when it is ready and stop there.
 - Never merge the pull request. The repository owner decides whether and when to merge.
+- Once the pull request is merged, close the originating issue and all related tickets.
