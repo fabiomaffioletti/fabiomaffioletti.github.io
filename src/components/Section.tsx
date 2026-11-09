@@ -4,9 +4,9 @@ interface SectionProps {
 
 export default function Section({ title }: SectionProps) {
   return (
-    <div className="col-12">
+    <div>
       <h2>{title}</h2>
-      <hr />
+      <hr className="mt-2 border-slate-300" />
     </div>
   );
 }

@@ -1,28 +1,48 @@
-* {
-  font-family: var(--font-spectral), serif;
-}
+@import "tailwindcss";
 
-h1 {
-  font-weight: 700;
-}
+@layer base {
+  body {
+    font-family: var(--font-spectral), serif;
+  }
 
-h2 {
-  text-transform: uppercase;
-  font-weight: 700;
-  font-size: 20px;
-}
+  h1 {
+    font-weight: 700;
+  }
 
-h3 {
-  text-transform: uppercase;
-  font-weight: 700;
-  font-size: 18px;
-}
+  h2 {
+    font-size: 20px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
 
-h4 {
-  font-weight: 600;
-  font-size: 16px;
-}
+  h3 {
+    font-size: 18px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
 
-.text-justify {
-  text-align: justify;
+  h4 {
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  a {
+    color: #0369a1;
+    text-decoration-line: underline;
+    text-decoration-color: rgb(3 105 161 / 40%);
+    text-underline-offset: 2px;
+    transition:
+      color 150ms ease,
+      text-decoration-color 150ms ease;
+  }
+
+  a:hover {
+    color: #0c4a6e;
+    text-decoration-color: currentColor;
+  }
+
+  a:focus-visible {
+    outline: 2px solid #0284c7;
+    outline-offset: 2px;
+  }
 }

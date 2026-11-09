@@ -8,12 +8,12 @@ interface CompaniesProps {
 
 export default function Companies({ companies }: CompaniesProps) {
   return (
-    <div className="row mt-5">
+    <section className="mt-12">
       <Section title="Professional experience" />
 
       {companies.map((company) => (
         <Company key={company.id} company={company} />
       ))}
-    </div>
+    </section>
   );
 }

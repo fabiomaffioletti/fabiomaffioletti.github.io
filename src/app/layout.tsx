@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Spectral } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
 
-import "bootstrap/dist/css/bootstrap.min.css";
 import "./globals.css";
 
 import { profile, yearsOfExperience } from "@/data/profile";
@@ -65,7 +64,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={spectral.variable}>
-        <div className="container">{children}</div>
+        <div className="mx-auto w-full px-3 min-[576px]:max-w-[540px] min-[768px]:max-w-[720px] min-[992px]:max-w-[960px] min-[1200px]:max-w-[1140px] min-[1400px]:max-w-[1320px]">
+          {children}
+        </div>
         <GoogleAnalytics gaId="G-09GX8HGR97" />
       </body>
     </html>
