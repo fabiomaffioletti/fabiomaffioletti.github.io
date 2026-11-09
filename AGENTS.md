@@ -2,6 +2,8 @@
 
 ## Agent skills
 
+Skills are versioned in `.agents/skills/`; `skills-lock.json` pins their upstream sources and hashes.
+
 ### Issue tracker
 
 Issues and specs live as GitHub issues, managed with the `gh` CLI. See `docs/agents/issue-tracker.md`.
