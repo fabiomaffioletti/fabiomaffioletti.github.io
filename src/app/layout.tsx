@@ -64,7 +64,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={spectral.variable}>
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto w-full px-3 min-[576px]:max-w-[540px] min-[768px]:max-w-[720px] min-[992px]:max-w-[960px] min-[1200px]:max-w-[1140px] min-[1400px]:max-w-[1320px]">
           {children}
         </div>
         <GoogleAnalytics gaId="G-09GX8HGR97" />
