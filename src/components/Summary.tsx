@@ -8,7 +8,7 @@ export default function Summary() {
     <section className="mt-12">
       <Section title="Summary" />
 
-      <p className="mt-4 text-left leading-relaxed md:text-justify">
+      <p className="mt-4 text-justify leading-relaxed">
         Technology leader with {yearsSinceStart}+ years of experience driving
         engineering excellence, building high-performing teams, and delivering
         scalable software solutions. Executive Coach, customer and business-driven,
