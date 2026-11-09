@@ -7,11 +7,11 @@ interface CompanyProps {
 
 export default function Company({ company }: CompanyProps) {
   return (
-    <>
-      <h3 className="mt-2">{company.name}</h3>
+    <div className="mt-8">
+      <h3 className="mb-2">{company.name}</h3>
       {company.roles.map((role) => (
         <Role key={role.id} role={role} />
       ))}
-    </>
+    </div>
   );
 }

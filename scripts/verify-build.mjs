@@ -1,5 +1,5 @@
 import path from "node:path";
-import { access, readFile, stat } from "node:fs/promises";
+import { access, readdir, readFile, stat } from "node:fs/promises";
 
 const out = path.resolve(process.cwd(), "out");
 const failures = [];
@@ -113,6 +113,24 @@ if (home) {
   for (const [name, pattern, detail] of metadata) {
     check(`home page has ${name}`, pattern.test(home), detail);
   }
+}
+
+try {
+  const staticDir = path.join(out, "_next/static");
+  const files = (await readdir(staticDir, { recursive: true }))
+    .filter((file) => file.endsWith(".css"))
+    .map((file) => path.join(staticDir, file));
+  const css = (
+    await Promise.all(files.map((file) => readFile(file, "utf8")))
+  ).join("\n");
+  check("Tailwind CSS is generated", css.includes("--tw-"));
+  check("Bootstrap CSS is absent", !css.includes("--bs-"));
+} catch (error) {
+  check(
+    "Tailwind CSS is generated",
+    false,
+    error instanceof Error ? error.message : String(error),
+  );
 }
 
 check("sitemap is exported", await exists("sitemap.xml"));

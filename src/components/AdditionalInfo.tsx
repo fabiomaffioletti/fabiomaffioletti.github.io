@@ -6,15 +6,13 @@ interface AdditionalInfoProps {
 
 export default function AdditionalInfo({ additionalInfo }: AdditionalInfoProps) {
   return (
-    <div className="row mt-5">
+    <section className="mt-12">
       <Section title="Additional information" />
-      <div className="col-12">
-        <ul>
-          {additionalInfo.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
-      </div>
-    </div>
+      <ul className="mt-4 list-disc space-y-2 pl-5 leading-relaxed">
+        {additionalInfo.map((item) => (
+          <li key={item}>{item}</li>
+        ))}
+      </ul>
+    </section>
   );
 }

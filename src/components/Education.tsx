@@ -7,18 +7,16 @@ interface EducationProps {
 
 export default function Education({ education }: EducationProps) {
   return (
-    <div className="row mt-5">
+    <section className="mt-12">
       <Section title="Education and courses" />
 
-      <div className="col-12">
-        <dl>
-          {education.map((item) => (
-            <dd key={item.id}>
-              <strong>{item.name}</strong> – {item.description}, {item.date}
-            </dd>
-          ))}
-        </dl>
-      </div>
-    </div>
+      <dl className="mt-4 space-y-2 leading-relaxed">
+        {education.map((item) => (
+          <dd key={item.id}>
+            <strong>{item.name}</strong> – {item.description}, {item.date}
+          </dd>
+        ))}
+      </dl>
+    </section>
   );
 }
