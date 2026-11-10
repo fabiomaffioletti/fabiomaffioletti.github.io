@@ -9,7 +9,7 @@ export default function Section({ id, title, children }: SectionProps) {
     <section
       id={id}
       aria-labelledby={`${id}-title`}
-      className="mt-16 scroll-mt-24"
+      className="mt-16 scroll-mt-32"
     >
       <h2
         id={`${id}-title`}

@@ -131,9 +131,10 @@
       "section-label": { "displayName": "Section Label", "purpose": "Uppercase section headings followed by a hairline rule." },
       "company": { "displayName": "Company Heading", "purpose": "Sentence-case company names in the experience section." },
       "role": { "displayName": "Role Heading", "purpose": "Role titles, paired with muted dates on one baseline row." },
-      "lede": { "displayName": "Lede", "purpose": "Home summary and page introductions." },
+      "lede": { "displayName": "Lede", "purpose": "Page introductions and the curriculum summary." },
       "body": { "displayName": "Body", "purpose": "Bullet lists, entries, and running copy." },
-      "meta": { "displayName": "Meta", "purpose": "Dates, header contact line, footer, and small labels." }
+      "meta": { "displayName": "Meta", "purpose": "Dates, header contact line, footer, and small labels." },
+      "service-title": { "displayName": "Service Title", "purpose": "The three service names in the home card grid." }
     },
     "shadows": [],
     "motion": [
@@ -185,7 +186,7 @@
       "kind": "custom",
       "refersTo": "display",
       "description": "Full-width sticky header band with a hairline rule and labeled primary navigation. Wraps at narrow widths.",
-      "html": "<header class=\"ds-site-header\"><div class=\"ds-container ds-site-header-inner\"><nav class=\"ds-nav\" aria-label=\"Primary\"><a href=\"/\" aria-current=\"page\">About</a><a href=\"/#experience\">Experience</a><a href=\"/#contact\">Contact</a></nav></div></header>",
+      "html": "<header class=\"ds-site-header\"><div class=\"ds-container ds-site-header-inner\"><nav class=\"ds-nav\" aria-label=\"Primary\"><a href=\"/\" aria-current=\"page\">Home</a><a href=\"/curriculum/\">Curriculum</a><a href=\"/coaching/\">Coaching</a><a href=\"/fractional-cto/\">Fractional CTO</a><a href=\"/contacts/\">Contacts</a></nav></div></header>",
       "css": ".ds-site-header { position: sticky; top: 0; z-index: 40; background: oklch(100% 0 0); border-bottom: 1px solid oklch(86.9% 0.022 252.894); } .ds-container { width: 100%; margin-inline: auto; padding-inline: 20px; } @media (min-width: 576px) { .ds-container { max-width: 540px; } } @media (min-width: 640px) { .ds-container { padding-inline: 24px; } } @media (min-width: 768px) { .ds-container { max-width: 720px; } } @media (min-width: 992px) { .ds-container { max-width: 960px; } } @media (min-width: 1200px) { .ds-container { max-width: 1140px; } } @media (min-width: 1400px) { .ds-container { max-width: 1320px; } } .ds-site-header-inner { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; padding-block: 16px; font-family: var(--font-spectral), Georgia, serif; } .ds-nav { display: flex; flex-wrap: wrap; gap: 8px 16px; font-size: 0.875rem; line-height: 1.6; } .ds-nav a { color: oklch(45% 0.02 250); text-decoration: none; } .ds-nav a:hover { color: oklch(50% 0.134 242.749); text-decoration: underline; text-underline-offset: 3px; } .ds-nav a[aria-current=\"page\"] { color: oklch(18% 0.01 250); font-weight: 600; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; } .ds-nav a:focus-visible { outline: 2px solid oklch(58.8% 0.158 241.966); outline-offset: 2px; }"
     },
     {
@@ -195,6 +196,22 @@
       "description": "The only filled element on a page; one per page, square, at least 44px tall.",
       "html": "<a class=\"ds-cta\" href=\"mailto:fabio.maffioletti@gmail.com\">Email me</a>",
       "css": ".ds-cta { display: inline-flex; min-height: 44px; align-items: center; background: oklch(50% 0.134 242.749); color: oklch(100% 0 0); padding: 12px 20px; border-radius: 0; font-family: var(--font-spectral), Georgia, serif; font-size: 1.0625rem; font-weight: 600; line-height: 1.65; text-decoration: none; transition: background-color 150ms ease, color 150ms ease; } .ds-cta:hover { background: oklch(36% 0.09 242.749); color: oklch(100% 0 0); } .ds-cta:focus-visible { outline: 2px solid oklch(58.8% 0.158 241.966); outline-offset: 2px; }"
+    },
+    {
+      "name": "Service Card",
+      "kind": "custom",
+      "refersTo": "body",
+      "description": "Flat, square, hairline-bordered navigation block used only in the home services grid.",
+      "html": "<div class=\"ds-service-grid\"><article class=\"ds-service-card\"><h3 class=\"ds-service-title\">Coaching</h3><p>Executive coaching for engineering leaders who want to grow their impact and their teams.</p><a class=\"ds-service-button\" href=\"/coaching/\">Coaching</a></article></div>",
+      "css": ".ds-service-grid { display: grid; gap: 24px; } @media (min-width: 768px) { .ds-service-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } } @media (min-width: 1024px) { .ds-service-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } } .ds-service-card { display: flex; flex-direction: column; border: 1px solid oklch(86.9% 0.022 252.894); border-radius: 0; background: oklch(100% 0 0); padding: 24px; font-family: var(--font-spectral), Georgia, serif; } .ds-service-title { margin: 0; font-size: 1.1875rem; font-weight: 600; line-height: 1.55; color: oklch(18% 0.01 250); } .ds-service-card p { margin: 12px 0 0; flex: 1; font-size: 1.0625rem; line-height: 1.65; color: oklch(18% 0.01 250); } .ds-service-card .ds-service-button { margin-top: 24px; }"
+    },
+    {
+      "name": "Service Card Button",
+      "kind": "custom",
+      "refersTo": "cta-button",
+      "description": "Outlined, square action used only inside service cards.",
+      "html": "<a class=\"ds-service-button\" href=\"/coaching/\">Coaching</a>",
+      "css": ".ds-service-button { display: inline-flex; min-height: 44px; width: fit-content; align-items: center; border: 1px solid oklch(50% 0.134 242.749); border-radius: 0; padding: 8px 16px; font-family: var(--font-spectral), Georgia, serif; font-size: 0.875rem; font-weight: 600; line-height: 1.6; color: oklch(50% 0.134 242.749); text-decoration: none; transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease; } .ds-service-button:hover { background: oklch(36% 0.09 242.749); border-color: oklch(36% 0.09 242.749); color: oklch(100% 0 0); } .ds-service-button:focus-visible { outline: 2px solid oklch(58.8% 0.158 241.966); outline-offset: 2px; }"
     },
     {
       "name": "Footer",
@@ -207,36 +224,38 @@
   ],
   "narrative": {
     "northStar": "The Quiet Ledger",
-    "overview": "A self-published professional record, set like a well-made document but built as a small site. The page earns trust by getting out of the way: one serif family, near-black on white, a few hairline rules, and enough vertical air that the facts can be read without effort.\n\nThe system is deliberately conservative. The type family and its three weights are fixed; hierarchy comes from scale, weight, case, and space rather than new fonts or decoration. There is no card vocabulary, no shadow, and no ornamental frame. The single accent blue marks interaction: links and one primary call to action per page.\n\nThe result should feel authored and current: a credible professional record for CTOs, founders, and engineering leaders, not a template and not an AI-generated landing page.",
+    "overview": "A self-published professional record, set like a well-made document but built as a small site. The page earns trust by getting out of the way: one serif family, near-black on white, a few hairline rules, and enough vertical air that the facts can be read without effort.\n\nThe system is deliberately conservative. The type family and its three weights are fixed; hierarchy comes from scale, weight, case, and space rather than new fonts or decoration. There is no general card vocabulary, no shadow, and no ornamental frame; the home services section is the only place where flat, bordered cards appear. The single accent blue marks interaction: links, the service-card buttons, and one primary call to action per page.\n\nThe result should feel authored and current: a credible professional record for CTOs, founders, and engineering leaders, not a template and not an AI-generated landing page.",
     "keyCharacteristics": [
       "One serif family (Spectral) at 400, 600, and 700, fixed.",
       "Near-black on white; one blue reserved for interaction.",
-      "Flat: no shadows, cards, or decorative fills.",
+      "Flat: no shadows or decorative fills; service cards are the only bordered containers.",
       "Structure from 1px hairline rules and 64px section rhythm.",
       "Wide centered column that fills most of the viewport, up to 1320px.",
-      "One filled CTA per page; every other action is a link."
+      "One filled CTA per page; other actions are links or the outlined service-card button."
     ],
     "rules": [
-      { "name": "The One Voice Rule", "body": "Reference Blue marks interaction only: links, focus, and the single primary CTA. It never decorates headings or icons, and the only filled surface it may color is the primary CTA.", "section": "colors" },
-      { "name": "The Paper Rule", "body": "Backgrounds stay white. The only exception is the one filled accent CTA on a page.", "section": "colors" },
+      { "name": "The One Voice Rule", "body": "Reference Blue marks interaction only: links, focus, the outlined service-card button, and the single primary CTA. It never decorates headings or icons, and the only filled surface it may color is the primary CTA.", "section": "colors" },
+      { "name": "The Paper Rule", "body": "Backgrounds stay white. The only exception is the one filled accent CTA on a page. Service cards keep the Paper background and use a hairline border, never a tinted fill.", "section": "colors" },
       { "name": "The Fixed Type Rule", "body": "The family, its three weights, and the absence of italic are fixed. Do not introduce another family, a display face, or decorative type treatment.", "section": "typography" },
       { "name": "The Full-Width Column Rule", "body": "Content uses the full page column. Do not cap paragraphs to a narrow reading measure, and never justify text; left alignment is the default at every width.", "section": "typography" },
-      { "name": "The One CTA Rule", "body": "A page has at most one filled CTA. Every other action is an inline link.", "section": "components" }
+      { "name": "The One CTA Rule", "body": "A page has at most one filled CTA. Other actions are inline links or the outlined service-card button.", "section": "components" }
     ],
     "dos": [
       "Do keep Spectral at 400, 600, and 700 only; do not add italic or another family.",
       "Do use the full page column for running text, left-aligned, with a 1.65 line height.",
       "Do use 64px between top-level sections and a 1px Hairline rule under each section label.",
-      "Do reserve Reference Blue for links, focus, and the single CTA.",
+      "Do reserve Reference Blue for links, focus, the single CTA, and the outlined service-card button.",
+      "Do keep service cards flat, square, bordered, and limited to the home services grid.",
       "Do keep one h1 per page, a main landmark, a skip link, and a labeled primary navigation.",
-      "Do provide a visible focus state and a text cue for links that open a new tab."
+      "Do provide a visible focus state and a text cue for links that open in a new tab."
     ],
     "donts": [
       "Don't justify body text or cap the page to a narrow reading measure.",
-      "Don't add shadows, rounded corners, cards, tinted panels, gradients, or decorative icons.",
-      "Don't add a second filled CTA or turn ordinary links into buttons.",
+      "Don't add shadows, rounded corners, filled cards, tinted panels, gradients, or decorative icons.",
+      "Don't add a second filled CTA; card actions stay outlined.",
+      "Don't nest cards or turn them into a generic icon-heading-text scaffold.",
       "Don't use color to signal hierarchy; hierarchy comes from scale, weight, case, and space.",
-      "Don't hide navigation behind a hamburger or a client-only disclosure for this few links.",
+      "Don't hide navigation behind a hamburger or a client-only disclosure for these five links.",
       "Don't apply the navy-and-amber palette of og-image.png to the page; it is a separate social-card asset."
     ]
   }

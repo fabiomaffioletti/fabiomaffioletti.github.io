@@ -5,11 +5,6 @@ import { usePathname } from "next/navigation";
 
 import { publishedRoutes } from "@/data/routes";
 
-const anchors = [
-  { href: "/#experience", label: "Experience" },
-  { href: "/#contact", label: "Contact" },
-];
-
 function normalizePath(path: string): string {
   return path === "/" ? "/" : path.replace(/\/$/, "");
 }
@@ -17,26 +12,17 @@ function normalizePath(path: string): string {
 export default function SiteNav() {
   const pathname = usePathname();
   const current = normalizePath(pathname);
-  const items = [
-    ...publishedRoutes().map((route) => ({
-      href: route.path,
-      label: route.label,
-    })),
-    ...anchors,
-  ];
 
   return (
     <nav aria-label="Primary">
       <ul className="flex flex-wrap items-center gap-x-5 gap-y-1 text-sm">
-        {items.map((item) => {
-          const isCurrent =
-            item.href.startsWith("/#") === false &&
-            normalizePath(item.href) === current;
+        {publishedRoutes().map((route) => {
+          const isCurrent = normalizePath(route.path) === current;
 
           return (
-            <li key={item.href}>
+            <li key={route.path}>
               <Link
-                href={item.href}
+                href={route.path}
                 aria-current={isCurrent ? "page" : undefined}
                 className={`hover:text-accent hover:underline hover:underline-offset-4 ${
                   isCurrent
@@ -44,7 +30,7 @@ export default function SiteNav() {
                     : "text-muted no-underline"
                 }`}
               >
-                {item.label}
+                {route.label}
               </Link>
             </li>
           );

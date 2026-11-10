@@ -1,4 +1,9 @@
-export type SiteRouteKey = "home" | "coaching" | "fractional-cto";
+export type SiteRouteKey =
+  | "home"
+  | "curriculum"
+  | "coaching"
+  | "fractional-cto"
+  | "contacts";
 
 export interface SiteRoute {
   key: SiteRouteKey;
@@ -15,14 +20,25 @@ export const siteRoutes: SiteRoute[] = [
   {
     key: "home",
     path: "/",
-    label: "About",
+    label: "Home",
     title:
       "Fabio Maffioletti – Head of Engineering | Senior Engineering Manager | Technology Leader",
     description:
-      "The professional curriculum and services of Fabio Maffioletti, Head of Engineering and technology leader.",
+      "Technology leadership, coaching, and fractional CTO services from Fabio Maffioletti.",
     published: true,
     changeFrequency: "monthly",
     priority: 1,
+  },
+  {
+    key: "curriculum",
+    path: "/curriculum/",
+    label: "Curriculum",
+    title: "Curriculum",
+    description:
+      "Professional experience, education, skills, and links for Fabio Maffioletti.",
+    published: true,
+    changeFrequency: "monthly",
+    priority: 0.8,
   },
   {
     key: "coaching",
@@ -30,7 +46,7 @@ export const siteRoutes: SiteRoute[] = [
     label: "Coaching",
     title: "Coaching",
     description: "Coaching services for engineering leaders.",
-    published: false,
+    published: true,
     changeFrequency: "monthly",
     priority: 0.8,
   },
@@ -40,9 +56,19 @@ export const siteRoutes: SiteRoute[] = [
     label: "Fractional CTO",
     title: "Fractional CTO",
     description: "Fractional CTO services for growing engineering teams.",
-    published: false,
+    published: true,
     changeFrequency: "monthly",
     priority: 0.8,
+  },
+  {
+    key: "contacts",
+    path: "/contacts/",
+    label: "Contacts",
+    title: "Contacts",
+    description: "Contact Fabio Maffioletti by email or LinkedIn.",
+    published: true,
+    changeFrequency: "yearly",
+    priority: 0.6,
   },
 ];
 

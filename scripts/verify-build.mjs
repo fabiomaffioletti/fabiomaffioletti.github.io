@@ -2,7 +2,7 @@ import path from "node:path";
 import { access, readdir, readFile, stat } from "node:fs/promises";
 
 import { profile } from "../src/data/profile.ts";
-import { publishedRoutes, siteRoutes } from "../src/data/routes.ts";
+import { publishedRoutes } from "../src/data/routes.ts";
 
 const out = path.resolve(process.cwd(), "out");
 const failures = [];
@@ -52,29 +52,16 @@ check("home page is exported", home.length > 0, "out/index.html is missing");
 if (home) {
   const content = [
     "Fabio Maffioletti",
-    "Head of Engineering",
-    "Summary",
-    "Professional experience",
-    "Tidio",
-    "Casavo Management Spa",
-    "eBay Inc",
-    "Skebby Mobile Solutions srl",
-    "Lumata / Buongiorno Spa",
-    "Vidiemme Consulting srl",
-    "Education and courses",
-    "Politecnico di Milano",
-    "Escuela Europea de Coaching",
-    "Remote-how",
-    "Certified Secure",
-    "Management and technical skills",
-    "System design, Java, Spring",
-    "Personal projects and links",
-    "JSONDoc",
-    "MissPlitty",
-    "Resources for EMs",
-    "Additional information",
-    "Languages: Italian (native), English (fluent)",
-    "Avid reader.",
+    "Technology leader",
+    "What can I do for you?",
+    "Technology leadership &amp; Engineering Management",
+    "Coaching",
+    "Fractional CTO",
+    "Curriculum",
+    "Contacts",
+    "Milan, Italy",
+    "fabio.maffioletti@gmail.com",
+    "LinkedIn",
     "Skip to content",
     "aria-label=\"Primary\"",
     "id=\"main\"",
@@ -133,6 +120,112 @@ if (home) {
   );
 }
 
+const curriculumPage = await readOutput("curriculum/index.html").catch(() => "");
+check(
+  "curriculum page is exported",
+  curriculumPage.length > 0,
+  "out/curriculum/index.html is missing",
+);
+
+if (curriculumPage) {
+  const content = [
+    "Summary",
+    "Professional experience",
+    "Tidio",
+    "Casavo Management Spa",
+    "eBay Inc",
+    "Skebby Mobile Solutions srl",
+    "Lumata / Buongiorno Spa",
+    "Vidiemme Consulting srl",
+    "Education and courses",
+    "Politecnico di Milano",
+    "Escuela Europea de Coaching",
+    "Remote-how",
+    "Certified Secure",
+    "Management and technical skills",
+    "System design, Java, Spring",
+    "Personal projects and links",
+    "JSONDoc",
+    "MissPlitty",
+    "Resources for EMs",
+    "Additional information",
+    "Languages: Italian (native), English (fluent)",
+    "Avid reader.",
+    "Skip to content",
+    "aria-label=\"Primary\"",
+    "id=\"main\"",
+  ];
+
+  for (const text of content) {
+    check(
+      `curriculum page contains "${text}"`,
+      curriculumPage.includes(text),
+    );
+  }
+
+  check(
+    "curriculum page has one h1",
+    (curriculumPage.match(/<h1[\s>]/g) ?? []).length === 1,
+  );
+  check(
+    "curriculum page marks the current navigation item",
+    curriculumPage.includes('aria-current="page"'),
+  );
+}
+
+const coachingPage = await readOutput("coaching/index.html").catch(() => "");
+check(
+  "coaching page is exported",
+  coachingPage.length > 0,
+  "out/coaching/index.html is missing",
+);
+if (coachingPage) {
+  check(
+    "coaching page has placeholder copy",
+    coachingPage.includes("Placeholder: coaching offer"),
+  );
+  check(
+    "coaching page links to contacts",
+    coachingPage.includes('href="/contacts/"'),
+  );
+}
+
+const fractionalPage = await readOutput("fractional-cto/index.html").catch(() => "");
+check(
+  "fractional CTO page is exported",
+  fractionalPage.length > 0,
+  "out/fractional-cto/index.html is missing",
+);
+if (fractionalPage) {
+  check(
+    "fractional CTO page has placeholder copy",
+    fractionalPage.includes("Placeholder: fractional CTO offer"),
+  );
+  check(
+    "fractional CTO page links to contacts",
+    fractionalPage.includes('href="/contacts/"'),
+  );
+}
+
+const contactsPage = await readOutput("contacts/index.html").catch(() => "");
+check(
+  "contacts page is exported",
+  contactsPage.length > 0,
+  "out/contacts/index.html is missing",
+);
+if (contactsPage) {
+  check(
+    "contacts page contains the contact CTA",
+    contactsPage.includes("Email Fabio"),
+  );
+  check(
+    "contacts page contains the contact details",
+    contactsPage.includes(profile.email) &&
+      contactsPage.includes("Milan, Italy") &&
+      contactsPage.includes("LinkedIn"),
+  );
+}
+
 for (const route of publishedRoutes()) {
   const file = outputPathFor(route.path);
   const html = await readOutput(file).catch(() => "");
@@ -173,20 +266,6 @@ for (const route of publishedRoutes()) {
   );
 }
 
-for (const route of siteRoutes.filter((item) => !item.published)) {
-  const html = await readOutput(outputPathFor(route.path)).catch(() => "");
-
-  check(
-    `unpublished route ${route.path} is exported`,
-    html.length > 0,
-    `${outputPathFor(route.path)} is missing`,
-  );
-  check(
-    `unpublished route ${route.path} is noindex`,
-    html.includes("noindex"),
-  );
-}
-
 try {
   const staticDir = path.join(out, "_next/static");
   const files = (await readdir(staticDir, { recursive: true }))
@@ -213,13 +292,6 @@ if (sitemap) {
     check(
       `sitemap lists ${route.path}`,
       sitemap.includes(absoluteUrl(route.path)),
-    );
-  }
-
-  for (const route of siteRoutes.filter((item) => !item.published)) {
-    check(
-      `sitemap excludes unpublished route ${route.path}`,
-      !sitemap.includes(absoluteUrl(route.path)),
     );
   }
 

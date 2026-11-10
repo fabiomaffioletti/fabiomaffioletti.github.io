@@ -20,7 +20,7 @@ A personal curriculum vitae and portfolio site for Fabio Maffioletti, published 
 
 ## Positioning
 
-A first-person, self-published record of two decades of engineering leadership at named companies, carrying quantified outcomes and direct contact details rather than third-party framing. It is also the planned home for his own services offer.
+A first-person, self-published record of two decades of engineering leadership at named companies, carrying quantified outcomes and direct contact details rather than third-party framing. It presents his own services offer alongside the curriculum.
 
 ## Operating Context
 
@@ -32,15 +32,17 @@ A first-person, self-published record of two decades of engineering leadership a
 ## Capabilities and Constraints
 
 - Static export: no server runtime, ISR, or built-in image optimization.
-- Sections: profile header, summary, professional experience by company and role, education, skills, links, additional information.
+- Pages: Home service overview, Curriculum, Coaching, Fractional CTO, Contacts.
+- The Curriculum page carries the profile summary, professional experience by company and role, education, skills, links, and additional information.
 - Search and social metadata: description, Open Graph, Twitter card, Person JSON-LD, sitemap, robots.
 - The MissPlitty privacy page is a standalone document kept at its existing path; future work must preserve it.
-- Two services pages covering coaching and fractional CTO work exist as unpublished, noindex shells. Their content, structure, and timing are undecided.
+- Coaching and Fractional CTO are published with placeholder copy. Their full content, format, and availability are undecided.
 
 ## Brand Commitments
 
 - Name: Fabio Maffioletti.
 - Headline: "Head of Engineering | Senior Engineering Manager | Technology Leader".
+- Tagline: "Technology leader – Executive Coach – Fractional CTO".
 - First-person professional voice in English.
 - Claims and metrics come from the existing curriculum and must not be replaced, inflated, or supplemented with fabricated evidence.
 
@@ -50,7 +52,7 @@ A first-person, self-published record of two decades of engineering leadership a
 - Full curriculum, including companies, roles, dated achievements, education, skills, and links, in `src/data/curriculum.ts`.
 - Generated Open Graph image at `public/og-image.png`.
 - MissPlitty privacy policy at `public/projects/android/missplitty/privacy-policy/index.html`.
-- Absent and not to be fabricated: testimonials, external case studies, client logos, service pricing, or service descriptions.
+- Absent and not to be fabricated: testimonials, external case studies, client logos, service pricing, or specific service outcomes. The service-card descriptions are generic placeholders.
 
 ## Product Principles
 

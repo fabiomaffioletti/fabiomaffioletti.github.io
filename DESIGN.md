@@ -52,6 +52,11 @@ typography:
     fontSize: "0.875rem"
     fontWeight: 400
     lineHeight: 1.6
+  service-title:
+    fontFamily: "Spectral, Georgia, serif"
+    fontSize: "1.1875rem"
+    fontWeight: 600
+    lineHeight: 1.55
 rounded:
   none: "0px"
 spacing:
@@ -91,6 +96,25 @@ components:
   cta-button-hover:
     backgroundColor: "{colors.primary-hover}"
     textColor: "{colors.accent-contrast}"
+  service-card:
+    backgroundColor: "{colors.neutral-paper}"
+    borderColor: "{colors.neutral-rule}"
+    borderWidth: "1px"
+    rounded: "{rounded.none}"
+    padding: "24px"
+  service-card-button:
+    borderColor: "{colors.primary}"
+    borderWidth: "1px"
+    textColor: "{colors.primary}"
+    typography: "{typography.meta}"
+    fontWeight: 600
+    rounded: "{rounded.none}"
+    padding: "8px 16px"
+    minHeight: "44px"
+  service-card-button-hover:
+    backgroundColor: "{colors.primary-hover}"
+    borderColor: "{colors.primary-hover}"
+    textColor: "{colors.accent-contrast}"
 ---
 
 # Design System: Fabio Maffioletti
@@ -101,24 +125,24 @@ components:
 
 A self-published professional record, set like a well-made document but built as a small site. The page earns trust by getting out of the way: one serif family, near-black on white, a few hairline rules, and enough vertical air that the facts can be read without effort.
 
-The system is deliberately conservative. The type family and its three weights are fixed; hierarchy comes from scale, weight, case, and space rather than new fonts or decoration. There is no card vocabulary, no shadow, and no ornamental frame. The single accent blue marks interaction: links and one primary call to action per page.
+The system is deliberately conservative. The type family and its three weights are fixed; hierarchy comes from scale, weight, case, and space rather than new fonts or decoration. There is no general card vocabulary, no shadow, and no ornamental frame; the home services section is the only place where flat, bordered cards appear. The single accent blue marks interaction: links, the service-card buttons, and one primary call to action per page.
 
 The result should feel authored and current: a credible professional record for CTOs, founders, and engineering leaders, not a template and not an AI-generated landing page.
 
 **Key Characteristics:**
 - One serif family (Spectral) at 400, 600, and 700, fixed.
 - Near-black on white; one blue reserved for interaction.
-- Flat: no shadows, cards, or decorative fills.
+- Flat: no shadows or decorative fills; service cards are the only bordered containers.
 - Structure from 1px hairline rules and 64px section rhythm.
 - Wide centered column that fills most of the viewport, up to 1320px.
-- One filled CTA per page; every other action is a link.
+- One filled CTA per page; other actions are links or the outlined service-card button.
 
 ## Colors
 
 A near-monochrome document palette with one restrained interaction blue.
 
 ### Primary
-- **Reference Blue** (oklch(50% 0.134 242.749)): Inline links and the single primary CTA. It is the only chromatic element on the page.
+- **Reference Blue** (oklch(50% 0.134 242.749)): Inline links, the outlined service-card button, and the single primary CTA. It is the only chromatic element on the page.
 - **Deep Reference** (oklch(36% 0.09 242.749)): Link hover text and the CTA hover fill.
 - **Focus Blue** (oklch(58.8% 0.158 241.966)): The 2px `:focus-visible` outline, offset 2px.
 - **Paper White** (oklch(100% 0 0)): CTA text, so the filled button stays at AA contrast.
@@ -127,12 +151,12 @@ A near-monochrome document palette with one restrained interaction blue.
 - **Ink** (oklch(18% 0.01 250)): Headings, role titles, and body copy.
 - **Muted Ink** (oklch(45% 0.02 250)): Dates, labels, ledes, footer text, and inactive navigation.
 - **Paper** (oklch(100% 0 0)): The page surface. No other background appears except the CTA.
-- **Hairline** (oklch(86.9% 0.022 252.894)): 1px rules under section labels, the header border, the CTA border, and the footer border.
+- **Hairline** (oklch(86.9% 0.022 252.894)): 1px rules under section labels, the header border, the CTA border, the footer border, and the service-card borders.
 
 ### Named Rules
-**The One Voice Rule.** Reference Blue marks interaction only: links, focus, and the single primary CTA. It never decorates headings or icons, and the only filled surface it may color is the primary CTA.
+**The One Voice Rule.** Reference Blue marks interaction only: links, focus, the outlined service-card button, and the single primary CTA. It never decorates headings or icons, and the only filled surface it may color is the primary CTA.
 
-**The Paper Rule.** Backgrounds stay white. The only exception is the one filled accent CTA on a page.
+**The Paper Rule.** Backgrounds stay white. The only exception is the one filled accent CTA on a page. Service cards keep the Paper background and use a hairline border, never a tinted fill.
 
 ## Typography
 
@@ -145,8 +169,9 @@ A near-monochrome document palette with one restrained interaction blue.
 - **Page title** (700, 2.25rem, line-height 1.15): The single `h1` on inner pages.
 - **Section label** (600, 0.875rem, line-height 1.6, uppercase, 0.08em tracking): Section headings. Treated as labels, always followed by a hairline rule.
 - **Company** (600, 1.375rem, line-height 1.4, sentence case): Company names in the experience section.
+- **Service title** (600, 1.1875rem, line-height 1.55): The three service names in the home card grid.
 - **Role** (600, 1.0625rem, line-height 1.65): Role titles. Dates sit beside them in 0.875rem muted, tabular numerals.
-- **Lede / Summary** (400, 1.1875rem, line-height 1.55): The home summary and page introductions.
+- **Lede / Summary** (400, 1.1875rem, line-height 1.55): Page introductions and the curriculum summary.
 - **Body** (400, 1.0625rem, line-height 1.65): Bullet lists, entries, and running copy. Uses the full page column, left-aligned.
 - **Meta** (400, 0.875rem, line-height 1.6): Header contact line, dates, footer, and small labels.
 
@@ -157,21 +182,21 @@ A near-monochrome document palette with one restrained interaction blue.
 
 ## Layout
 
-A single centered column using the same Bootstrap-style width ladder as the previous site: 540px, 720px, 960px, 1140px, and 1320px at 576px, 768px, 992px, 1200px, and 1400px. Side padding is 20px on mobile and 24px from 640px, so the column fills most of the viewport at laptop and desktop widths. There are no sidebars, grids, or multi-column regions.
+A single centered column using the same Bootstrap-style width ladder as the previous site: 540px, 720px, 960px, 1140px, and 1320px at 576px, 768px, 992px, 1200px, and 1400px. Side padding is 20px on mobile and 24px from 640px, so the column fills most of the viewport at laptop and desktop widths. There are no sidebars. The only grid is the home services section: two equal cards from 768px, three from 1024px, and a single stack below 768px.
 
 Vertical rhythm is generous and uniform: 64px above each top-level section, 32px between the header and the first section, and 32px of internal spacing inside bordered blocks. Section labels sit 12px above their hairline rule, and content begins 20px below it. Companies are separated by 32px and roles by 20px. List items are separated by 8px with a 20px indent.
 
-The site header is a full-width sticky band with a bottom hairline and Paper background; its inner content uses the same page column. The primary navigation sits left and wraps at narrow widths. The home hero is centered; inner pages use a left-aligned page header. The CTA and footer close every page on the same column.
+The site header is a full-width sticky band with a bottom hairline and Paper background; its inner content uses the same page column. The primary navigation sits left and wraps at narrow widths. The home hero is centered; inner pages use a left-aligned page header. The footer closes every page; the contact CTA belongs to the Contacts page.
 
-Responsive behavior is mobile-first from 360px. Role title and dates stack below 640px, then share a baseline row with space between them. Navigation wraps rather than hiding behind a menu; no client-side disclosure is needed for three links.
+Responsive behavior is mobile-first from 360px. Role title and dates stack below 640px, then share a baseline row with space between them. Navigation wraps rather than hiding behind a menu; no client-side disclosure is needed for five links.
 
 ## Elevation & Depth
 
-Flat. There are no shadows, no tonal layering, and no elevated surfaces. Depth comes from whitespace, from the 1px Hairline rules, and from the single accent-filled CTA, which is the only visually solid element on a page.
+Flat. There are no shadows, no tonal layering, and no elevated surfaces. Depth comes from whitespace, from the 1px Hairline rules, and from the single accent-filled CTA, which is the only visually solid element on a page. Service cards are flat bordered boxes, not elevated surfaces.
 
 ## Shapes
 
-Square. There is no border radius anywhere; corners are 0. The only geometry is the 1px horizontal rule, the disc bullet marker, and the rectangular CTA. No pills, no rounded cards, no icon medallions.
+Square. There is no border radius anywhere; corners are 0. The geometry is the 1px horizontal rule, the disc bullet marker, the rectangular CTA, and the square service cards. No pills, no rounded cards, no icon medallions.
 
 ## Components
 
@@ -184,7 +209,18 @@ Square. There is no border radius anywhere; corners are 0. The only geometry is 
 ### Primary CTA
 - **Shape:** Square rectangle, minimum height 44px, 12px × 20px padding.
 - **Color:** Reference Blue fill with Paper White text; Deep Reference fill on hover.
-- **Constraint:** One per page. It is the only filled element; do not add a second button or a button-like link.
+- **Constraint:** One per page. It is the only filled element; do not add a second filled CTA.
+
+### Service Cards
+- **Use:** The home services section only, in a two-column grid from 768px, three columns from 1024px, and a single stack below 768px.
+- **Shape:** Square, 1px Hairline border, 24px padding, Paper background, no radius, no shadow, no tinted fill.
+- **Content:** Service title at 1.1875rem/600, a short body description, and one outlined service-card button at the bottom.
+- **Constraint:** No icons, no nested cards, no decorative panels. These are navigation blocks, not a general card pattern.
+
+### Service Card Button
+- **Shape:** Square, minimum height 44px, 8px × 16px padding, 0.875rem/600.
+- **Color:** Reference Blue border and text on Paper; Deep Reference fill and border with Paper White text on hover.
+- **Constraint:** Outlined, not filled. Use only inside service cards to link to the related page.
 
 ### Navigation
 - **Style:** Muted Ink, 0.875rem, no underline at rest.
@@ -212,14 +248,16 @@ Square. There is no border radius anywhere; corners are 0. The only geometry is 
 - **Do** keep Spectral at 400, 600, and 700 only; do not add italic or another family.
 - **Do** use the full page column for running text, left-aligned, with a 1.65 line height.
 - **Do** use 64px between top-level sections and a 1px Hairline rule under each section label.
-- **Do** reserve Reference Blue for links, focus, and the single CTA.
+- **Do** reserve Reference Blue for links, focus, the single CTA, and the outlined service-card button.
+- **Do** keep service cards flat, square, bordered, and limited to the home services grid.
 - **Do** keep one `h1` per page, a `<main id="main">`, a skip link, and a labeled primary navigation.
 - **Do** provide a visible focus state and a text cue for links that open a new tab.
 
 ### Don't:
 - **Don't** justify body text or cap the page to a narrow reading measure.
-- **Don't** add shadows, rounded corners, cards, tinted panels, gradients, or decorative icons.
-- **Don't** add a second filled CTA or turn ordinary links into buttons.
+- **Don't** add shadows, rounded corners, filled cards, tinted panels, gradients, or decorative icons.
+- **Don't** add a second filled CTA; card actions stay outlined.
+- **Don't** nest cards or turn them into a generic icon-heading-text scaffold.
 - **Don't** use color to signal hierarchy; hierarchy comes from scale, weight, case, and space.
-- **Don't** hide navigation behind a hamburger or a client-only disclosure for this few links.
+- **Don't** hide navigation behind a hamburger or a client-only disclosure for these five links.
 - **Don't** apply the navy-and-amber palette of `og-image.png` to the page; it is a separate social-card asset.

@@ -33,7 +33,7 @@ export default function ContactCTA({
     <section
       id="contact"
       aria-labelledby="contact-title"
-      className={`mt-16 scroll-mt-24 border-t border-rule pt-[2rem] ${className}`}
+      className={`mt-16 scroll-mt-32 border-t border-rule pt-[2rem] ${className}`}
     >
       <h2
         id="contact-title"

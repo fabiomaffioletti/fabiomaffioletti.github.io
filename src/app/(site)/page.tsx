@@ -1,14 +1,7 @@
 import type { Metadata } from "next";
 
-import AdditionalInfo from "@/components/AdditionalInfo";
-import Companies from "@/components/Companies";
-import ContactCTA from "@/components/ContactCTA";
-import Education from "@/components/Education";
 import HomeHero from "@/components/HomeHero";
-import Links from "@/components/Links";
-import Skills from "@/components/Skills";
-import Summary from "@/components/Summary";
-import { curriculum } from "@/data/curriculum";
+import Services from "@/components/Services";
 import { profile } from "@/data/profile";
 import { buildPageMetadata, siteDescription } from "@/lib/metadata";
 
@@ -43,13 +36,7 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
       />
       <HomeHero />
-      <Summary />
-      <Companies companies={curriculum.experience.companies} />
-      <Education education={curriculum.education} />
-      <Skills skills={curriculum.skills} />
-      <Links links={curriculum.links} />
-      <AdditionalInfo additionalInfo={curriculum.additionalInfo} />
-      <ContactCTA />
+      <Services />
     </>
   );
 }
