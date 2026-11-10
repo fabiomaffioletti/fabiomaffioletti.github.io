@@ -2,6 +2,7 @@ export interface Profile {
   name: string;
   jobTitle: string;
   headline: string;
+  tagline: string;
   location: string;
   email: string;
   linkedin: string;
@@ -16,6 +17,7 @@ export const profile: Profile = {
   jobTitle: "Head of Engineering",
   headline:
     "Head of Engineering | Senior Engineering Manager | Technology Leader",
+  tagline: "Technology leader – Executive Coach – Fractional CTO",
   location: "Milan, Italy",
   email: "fabio.maffioletti@gmail.com",
   linkedin: "https://www.linkedin.com/in/fabiomaffioletti/",
