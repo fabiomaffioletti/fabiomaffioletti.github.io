@@ -6,7 +6,7 @@ export default function Summary() {
 
   return (
     <Section id="summary" title="Summary">
-      <p className="text-lg text-fg">
+      <p className="max-w-[68ch] text-lg text-fg">
         Technology leader with {yearsSinceStart}+ years of experience driving
         engineering excellence, building high-performing teams, and delivering
         scalable software solutions. Executive Coach, customer and

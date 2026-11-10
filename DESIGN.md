@@ -110,7 +110,7 @@ The result should feel authored and current: a credible professional record for 
 - Near-black on white; one blue reserved for interaction.
 - Flat: no shadows, cards, or decorative fills.
 - Structure from 1px hairline rules and 64px section rhythm.
-- Single reading column capped at 68 characters.
+- 76-character page column with running text capped at 68 characters.
 - One filled CTA per page; every other action is a link.
 
 ## Colors
@@ -157,11 +157,11 @@ A near-monochrome document palette with one restrained interaction blue.
 
 ## Layout
 
-A single centered column: `max-width: 68ch`, 20px side padding on mobile and 24px from 640px. There are no sidebars, grids, or multi-column regions.
+A single centered column: `max-width: 76ch`, 20px side padding on mobile and 24px from 640px. Running prose is capped at 68ch in the Summary and CTA; section rules, navigation, and experience entries use the full page column. There are no sidebars, grids, or multi-column regions.
 
 Vertical rhythm is generous and uniform: 64px above each top-level section, 32px between the header and the first section, and 32px of internal spacing inside bordered blocks. Section labels sit 12px above their hairline rule, and content begins 20px below it. Companies are separated by 32px and roles by 20px. List items are separated by 8px with a 20px indent.
 
-The site header is a full-width band with a bottom hairline; its inner content uses the same 68ch column. The brand sits left and the navigation right, wrapping at narrow widths. The home hero is centered; inner pages use a left-aligned page header. The CTA and footer close every page on the same column.
+The site header is a full-width band with a bottom hairline; its inner content uses the same 76ch column. The brand sits left and the navigation right, wrapping at narrow widths. The home hero is centered; inner pages use a left-aligned page header. The CTA and footer close every page on the same column.
 
 Responsive behavior is mobile-first from 360px. Role title and dates stack below 640px, then share a baseline row with space between them. Navigation wraps rather than hiding behind a menu; no client-side disclosure is needed for three links.
 

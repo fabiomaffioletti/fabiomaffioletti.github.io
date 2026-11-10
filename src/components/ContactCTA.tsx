@@ -35,28 +35,30 @@ export default function ContactCTA({
       aria-labelledby="contact-title"
       className={`mt-16 scroll-mt-8 border-t border-rule pt-[2rem] ${className}`}
     >
-      <h2
-        id="contact-title"
-        className="text-sm font-semibold uppercase tracking-label"
-      >
-        Contact
-      </h2>
-      <p className="mt-4 max-w-prose text-lg text-fg">{copy[context]}</p>
-      <div className="mt-6 flex flex-wrap items-center gap-4">
-        <a
-          href={mailto}
-          className="inline-flex min-h-11 items-center bg-accent px-5 py-3 text-base font-semibold text-accent-contrast no-underline transition-colors hover:bg-accent-hover hover:text-accent-contrast"
+      <div className="max-w-[68ch]">
+        <h2
+          id="contact-title"
+          className="text-sm font-semibold uppercase tracking-label"
         >
-          Email Fabio
-        </a>
-        <a
-          href={profile.linkedin}
-          target="_blank"
-          rel="noreferrer"
-          className="inline-flex min-h-11 items-center text-base"
-        >
-          LinkedIn<span className="sr-only"> (opens in a new tab)</span>
-        </a>
+          Contact
+        </h2>
+        <p className="mt-4 max-w-prose text-lg text-fg">{copy[context]}</p>
+        <div className="mt-6 flex flex-wrap items-center gap-4">
+          <a
+            href={mailto}
+            className="inline-flex min-h-11 items-center bg-accent px-5 py-3 text-base font-semibold text-accent-contrast no-underline transition-colors hover:bg-accent-hover hover:text-accent-contrast"
+          >
+            Email Fabio
+          </a>
+          <a
+            href={profile.linkedin}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex min-h-11 items-center text-base"
+          >
+            LinkedIn<span className="sr-only"> (opens in a new tab)</span>
+          </a>
+        </div>
       </div>
     </section>
   );
