@@ -33,7 +33,7 @@ export default function SiteFooter() {
           </li>
         </ul>
       </nav>
-      <p className="mt-6 max-w-prose text-2xs">
+      <p className="mt-6 text-2xs">
         I hereby authorize the treatment of my personal data according to Italian
         legislative decree no. 196 dated 2003-06-30
       </p>

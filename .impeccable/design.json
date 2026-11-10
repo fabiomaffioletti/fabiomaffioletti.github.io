@@ -186,7 +186,7 @@
       "refersTo": "display",
       "description": "Full-width header band with a hairline rule, brand, and labeled primary navigation. Wraps at narrow widths.",
       "html": "<header class=\"ds-site-header\"><div class=\"ds-container ds-site-header-inner\"><a class=\"ds-brand\" href=\"/\">Fabio Maffioletti</a><nav class=\"ds-nav\" aria-label=\"Primary\"><a href=\"/\" aria-current=\"page\">Home</a><a href=\"/#experience\">Experience</a><a href=\"/#contact\">Contact</a></nav></div></header>",
-      "css": ".ds-site-header { border-bottom: 1px solid oklch(86.9% 0.022 252.894); } .ds-container { width: 100%; max-width: 76ch; margin-inline: auto; padding-inline: 20px; } @media (min-width: 640px) { .ds-container { padding-inline: 24px; } } .ds-site-header-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; padding-block: 16px; font-family: var(--font-spectral), Georgia, serif; } .ds-brand { color: oklch(18% 0.01 250); font-size: 1.0625rem; font-weight: 600; line-height: 1.65; text-decoration: none; } .ds-brand:hover { color: oklch(36% 0.09 242.749); } .ds-nav { display: flex; flex-wrap: wrap; gap: 8px 16px; font-size: 0.875rem; line-height: 1.6; } .ds-nav a { color: oklch(45% 0.02 250); text-decoration: none; } .ds-nav a:hover { color: oklch(50% 0.134 242.749); text-decoration: underline; text-underline-offset: 3px; } .ds-nav a[aria-current=\"page\"] { color: oklch(18% 0.01 250); font-weight: 600; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; } .ds-brand:focus-visible, .ds-nav a:focus-visible { outline: 2px solid oklch(58.8% 0.158 241.966); outline-offset: 2px; }"
+      "css": ".ds-site-header { border-bottom: 1px solid oklch(86.9% 0.022 252.894); } .ds-container { width: 100%; margin-inline: auto; padding-inline: 20px; } @media (min-width: 576px) { .ds-container { max-width: 540px; } } @media (min-width: 640px) { .ds-container { padding-inline: 24px; } } @media (min-width: 768px) { .ds-container { max-width: 720px; } } @media (min-width: 992px) { .ds-container { max-width: 960px; } } @media (min-width: 1200px) { .ds-container { max-width: 1140px; } } @media (min-width: 1400px) { .ds-container { max-width: 1320px; } } .ds-site-header-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; padding-block: 16px; font-family: var(--font-spectral), Georgia, serif; } .ds-brand { color: oklch(18% 0.01 250); font-size: 1.0625rem; font-weight: 600; line-height: 1.65; text-decoration: none; } .ds-brand:hover { color: oklch(36% 0.09 242.749); } .ds-nav { display: flex; flex-wrap: wrap; gap: 8px 16px; font-size: 0.875rem; line-height: 1.6; } .ds-nav a { color: oklch(45% 0.02 250); text-decoration: none; } .ds-nav a:hover { color: oklch(50% 0.134 242.749); text-decoration: underline; text-underline-offset: 3px; } .ds-nav a[aria-current=\"page\"] { color: oklch(18% 0.01 250); font-weight: 600; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; } .ds-brand:focus-visible, .ds-nav a:focus-visible { outline: 2px solid oklch(58.8% 0.158 241.966); outline-offset: 2px; }"
     },
     {
       "name": "Primary CTA",
@@ -213,26 +213,26 @@
       "Near-black on white; one blue reserved for interaction.",
       "Flat: no shadows, cards, or decorative fills.",
       "Structure from 1px hairline rules and 64px section rhythm.",
-      "76-character page column with running text capped at 68 characters.",
+      "Wide centered column that fills most of the viewport, up to 1320px.",
       "One filled CTA per page; every other action is a link."
     ],
     "rules": [
       { "name": "The One Voice Rule", "body": "Reference Blue marks interaction only: links, focus, and the single primary CTA. It never decorates headings or icons, and the only filled surface it may color is the primary CTA.", "section": "colors" },
       { "name": "The Paper Rule", "body": "Backgrounds stay white. The only exception is the one filled accent CTA on a page.", "section": "colors" },
       { "name": "The Fixed Type Rule", "body": "The family, its three weights, and the absence of italic are fixed. Do not introduce another family, a display face, or decorative type treatment.", "section": "typography" },
-      { "name": "The Measure Rule", "body": "Running text never exceeds 68 characters per line, and it is never justified. Left alignment is the default at every width.", "section": "typography" },
+      { "name": "The Full-Width Column Rule", "body": "Content uses the full page column. Do not cap paragraphs to a narrow reading measure, and never justify text; left alignment is the default at every width.", "section": "typography" },
       { "name": "The One CTA Rule", "body": "A page has at most one filled CTA. Every other action is an inline link.", "section": "components" }
     ],
     "dos": [
       "Do keep Spectral at 400, 600, and 700 only; do not add italic or another family.",
-      "Do cap running text at 68ch, left-aligned, with a 1.65 line height.",
+      "Do use the full page column for running text, left-aligned, with a 1.65 line height.",
       "Do use 64px between top-level sections and a 1px Hairline rule under each section label.",
       "Do reserve Reference Blue for links, focus, and the single CTA.",
       "Do keep one h1 per page, a main landmark, a skip link, and a labeled primary navigation.",
       "Do provide a visible focus state and a text cue for links that open a new tab."
     ],
     "donts": [
-      "Don't justify body text or let lines run wider than 68 characters.",
+      "Don't justify body text or cap the page to a narrow reading measure.",
       "Don't add shadows, rounded corners, cards, tinted panels, gradients, or decorative icons.",
       "Don't add a second filled CTA or turn ordinary links into buttons.",
       "Don't use color to signal hierarchy; hierarchy comes from scale, weight, case, and space.",

@@ -110,7 +110,7 @@ The result should feel authored and current: a credible professional record for 
 - Near-black on white; one blue reserved for interaction.
 - Flat: no shadows, cards, or decorative fills.
 - Structure from 1px hairline rules and 64px section rhythm.
-- 76-character page column with running text capped at 68 characters.
+- Wide centered column that fills most of the viewport, up to 1320px.
 - One filled CTA per page; every other action is a link.
 
 ## Colors
@@ -147,21 +147,21 @@ A near-monochrome document palette with one restrained interaction blue.
 - **Company** (600, 1.375rem, line-height 1.4, sentence case): Company names in the experience section.
 - **Role** (600, 1.0625rem, line-height 1.65): Role titles. Dates sit beside them in 0.875rem muted, tabular numerals.
 - **Lede / Summary** (400, 1.1875rem, line-height 1.55): The home summary and page introductions.
-- **Body** (400, 1.0625rem, line-height 1.65): Bullet lists, entries, and running copy. Measure capped at 68ch, left-aligned.
+- **Body** (400, 1.0625rem, line-height 1.65): Bullet lists, entries, and running copy. Uses the full page column, left-aligned.
 - **Meta** (400, 0.875rem, line-height 1.6): Header contact line, dates, footer, and small labels.
 
 ### Named Rules
 **The Fixed Type Rule.** The family, its three weights, and the absence of italic are fixed. Do not introduce another family, a display face, or decorative type treatment.
 
-**The Measure Rule.** Running text never exceeds 68 characters per line, and it is never justified. Left alignment is the default at every width.
+**The Full-Width Column Rule.** Content uses the full page column. Do not cap paragraphs to a narrow reading measure, and never justify text; left alignment is the default at every width.
 
 ## Layout
 
-A single centered column: `max-width: 76ch`, 20px side padding on mobile and 24px from 640px. Running prose is capped at 68ch in the Summary and CTA; section rules, navigation, and experience entries use the full page column. There are no sidebars, grids, or multi-column regions.
+A single centered column using the same Bootstrap-style width ladder as the previous site: 540px, 720px, 960px, 1140px, and 1320px at 576px, 768px, 992px, 1200px, and 1400px. Side padding is 20px on mobile and 24px from 640px, so the column fills most of the viewport at laptop and desktop widths. There are no sidebars, grids, or multi-column regions.
 
 Vertical rhythm is generous and uniform: 64px above each top-level section, 32px between the header and the first section, and 32px of internal spacing inside bordered blocks. Section labels sit 12px above their hairline rule, and content begins 20px below it. Companies are separated by 32px and roles by 20px. List items are separated by 8px with a 20px indent.
 
-The site header is a full-width band with a bottom hairline; its inner content uses the same 76ch column. The brand sits left and the navigation right, wrapping at narrow widths. The home hero is centered; inner pages use a left-aligned page header. The CTA and footer close every page on the same column.
+The site header is a full-width band with a bottom hairline; its inner content uses the same page column. The brand sits left and the navigation right, wrapping at narrow widths. The home hero is centered; inner pages use a left-aligned page header. The CTA and footer close every page on the same column.
 
 Responsive behavior is mobile-first from 360px. Role title and dates stack below 640px, then share a baseline row with space between them. Navigation wraps rather than hiding behind a menu; no client-side disclosure is needed for three links.
 
@@ -210,14 +210,14 @@ Square. There is no border radius anywhere; corners are 0. The only geometry is 
 
 ### Do:
 - **Do** keep Spectral at 400, 600, and 700 only; do not add italic or another family.
-- **Do** cap running text at 68ch, left-aligned, with a 1.65 line height.
+- **Do** use the full page column for running text, left-aligned, with a 1.65 line height.
 - **Do** use 64px between top-level sections and a 1px Hairline rule under each section label.
 - **Do** reserve Reference Blue for links, focus, and the single CTA.
 - **Do** keep one `h1` per page, a `<main id="main">`, a skip link, and a labeled primary navigation.
 - **Do** provide a visible focus state and a text cue for links that open a new tab.
 
 ### Don't:
-- **Don't** justify body text or let lines run wider than 68 characters.
+- **Don't** justify body text or cap the page to a narrow reading measure.
 - **Don't** add shadows, rounded corners, cards, tinted panels, gradients, or decorative icons.
 - **Don't** add a second filled CTA or turn ordinary links into buttons.
 - **Don't** use color to signal hierarchy; hierarchy comes from scale, weight, case, and space.

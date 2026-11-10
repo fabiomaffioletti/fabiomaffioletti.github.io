@@ -11,7 +11,7 @@ export default function NotFound() {
       <Container>
         <main id="main" tabIndex={-1} className="mt-16">
           <h1 className="text-3xl font-bold tracking-tight">Page not found</h1>
-          <p className="mt-4 max-w-prose text-lg text-muted">
+          <p className="mt-4 text-lg text-muted">
             The page you are looking for does not exist or has moved.
           </p>
           <p className="mt-6">
