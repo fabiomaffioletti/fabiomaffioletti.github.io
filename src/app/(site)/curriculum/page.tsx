@@ -22,10 +22,7 @@ export const metadata: Metadata = buildPageMetadata({
 export default function CurriculumPage() {
   return (
     <>
-      <PageHeader
-        title="Curriculum"
-        lede="Professional experience, education, skills, and links."
-      />
+      <PageHeader title="Curriculum" />
       <Summary />
       <Companies companies={curriculum.experience.companies} />
       <Education education={curriculum.education} />
