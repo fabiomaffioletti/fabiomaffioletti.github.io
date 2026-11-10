@@ -1,5 +1,3 @@
-import { differenceInYears } from "date-fns";
-
 export interface Profile {
   name: string;
   jobTitle: string;
@@ -28,8 +26,5 @@ export const profile: Profile = {
 };
 
 export function yearsOfExperience(asOf: Date = new Date()): number {
-  return differenceInYears(
-    asOf,
-    new Date(`${profile.careerStartYear}-01-01`),
-  );
+  return asOf.getFullYear() - profile.careerStartYear;
 }

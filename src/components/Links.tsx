@@ -7,18 +7,18 @@ interface LinksProps {
 
 export default function Links({ links }: LinksProps) {
   return (
-    <section className="mt-12">
-      <Section title="Personal projects and links" />
-      <dl className="mt-4 space-y-2 leading-relaxed">
+    <Section id="links" title="Personal projects and links">
+      <ul className="space-y-2">
         {links.map((item) => (
-          <dd key={item.id}>
+          <li key={item.id}>
             <a href={item.href} target="_blank" rel="noreferrer">
               {item.title}
+              <span className="sr-only"> (opens in a new tab)</span>
             </a>
             : {item.description}
-          </dd>
+          </li>
         ))}
-      </dl>
-    </section>
+      </ul>
+    </Section>
   );
 }

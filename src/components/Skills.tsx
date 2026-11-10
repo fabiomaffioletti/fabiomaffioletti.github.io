@@ -6,13 +6,12 @@ interface SkillsProps {
 
 export default function Skills({ skills }: SkillsProps) {
   return (
-    <section className="mt-12">
-      <Section title="Management and technical skills" />
-      <ul className="mt-4 list-disc space-y-2 pl-5 leading-relaxed">
+    <Section id="skills" title="Management and technical skills">
+      <ul className="list-disc space-y-2 pl-5">
         {skills.map((item) => (
           <li key={item}>{item}</li>
         ))}
       </ul>
-    </section>
+    </Section>
   );
 }

@@ -4,37 +4,35 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 
 import "./globals.css";
 
-import { profile, yearsOfExperience } from "@/data/profile";
+import { profile } from "@/data/profile";
+import { siteDescription } from "@/lib/metadata";
 
 const spectral = Spectral({
   subsets: ["latin"],
-  weight: ["200", "300", "400", "500", "600", "700", "800"],
-  style: ["normal", "italic"],
+  weight: ["400", "600", "700"],
+  style: ["normal"],
   display: "swap",
   variable: "--font-spectral",
 });
 
-const title = `${profile.name} – ${profile.headline}`;
-
-const description = `Technology leader with ${yearsOfExperience()}+ years of experience driving engineering excellence, building high-performing teams, and delivering scalable software solutions.`;
+const description = siteDescription;
 
 export const metadata: Metadata = {
   metadataBase: new URL(profile.siteUrl),
-  title,
-  description,
-  alternates: {
-    canonical: "/",
+  title: {
+    default: `${profile.name} – ${profile.headline}`,
+    template: `%s – ${profile.name}`,
   },
+  description,
   icons: {
     icon: "/favicon.ico",
   },
   openGraph: {
-    type: "profile",
-    url: "/",
-    title,
-    description,
+    type: "website",
     siteName: profile.name,
     locale: "en_US",
+    title: `${profile.name} – ${profile.headline}`,
+    description,
     images: [
       {
         url: "/og-image.png",
@@ -46,7 +44,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title,
+    title: `${profile.name} – ${profile.headline}`,
     description,
     images: ["/og-image.png"],
   },
@@ -64,9 +62,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={spectral.variable}>
-        <div className="mx-auto w-full px-3 min-[576px]:max-w-[540px] min-[768px]:max-w-[720px] min-[992px]:max-w-[960px] min-[1200px]:max-w-[1140px] min-[1400px]:max-w-[1320px]">
-          {children}
-        </div>
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:bg-bg focus:px-4 focus:py-2 focus:text-fg focus:outline-2 focus:outline-offset-2 focus:outline-focus"
+        >
+          Skip to content
+        </a>
+        {children}
         <GoogleAnalytics gaId="G-09GX8HGR97" />
       </body>
     </html>

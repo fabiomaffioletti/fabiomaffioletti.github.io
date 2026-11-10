@@ -1,14 +1,24 @@
-import Header from "@/components/Header";
-import Summary from "@/components/Summary";
-import Companies from "@/components/Companies";
-import Education from "@/components/Education";
-import Skills from "@/components/Skills";
-import Links from "@/components/Links";
-import AdditionalInfo from "@/components/AdditionalInfo";
-import Footer from "@/components/Footer";
+import type { Metadata } from "next";
 
+import AdditionalInfo from "@/components/AdditionalInfo";
+import Companies from "@/components/Companies";
+import ContactCTA from "@/components/ContactCTA";
+import Education from "@/components/Education";
+import HomeHero from "@/components/HomeHero";
+import Links from "@/components/Links";
+import Skills from "@/components/Skills";
+import Summary from "@/components/Summary";
 import { curriculum } from "@/data/curriculum";
 import { profile } from "@/data/profile";
+import { buildPageMetadata, siteDescription } from "@/lib/metadata";
+
+export const metadata: Metadata = buildPageMetadata({
+  title: `${profile.name} – ${profile.headline}`,
+  description: siteDescription,
+  path: "/",
+  type: "profile",
+  absoluteTitle: true,
+});
 
 const personJsonLd = {
   "@context": "https://schema.org",
@@ -32,14 +42,14 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
       />
-      <Header />
+      <HomeHero />
       <Summary />
       <Companies companies={curriculum.experience.companies} />
       <Education education={curriculum.education} />
       <Skills skills={curriculum.skills} />
       <Links links={curriculum.links} />
       <AdditionalInfo additionalInfo={curriculum.additionalInfo} />
-      <Footer />
+      <ContactCTA />
     </>
   );
 }

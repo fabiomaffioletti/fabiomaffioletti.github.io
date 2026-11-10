@@ -1,0 +1,243 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-10T00:00:00Z",
+  "title": "Design System: Fabio Maffioletti",
+  "extensions": {
+    "colorMeta": {
+      "primary": {
+        "role": "primary",
+        "displayName": "Reference Blue",
+        "canonical": "oklch(50% 0.134 242.749)",
+        "tonalRamp": [
+          "oklch(18% 0.06 242.7)",
+          "oklch(28% 0.095 242.7)",
+          "oklch(38% 0.12 242.7)",
+          "oklch(50% 0.134 242.7)",
+          "oklch(62% 0.12 242.7)",
+          "oklch(74% 0.09 242.7)",
+          "oklch(86% 0.05 242.7)",
+          "oklch(95% 0.02 242.7)"
+        ]
+      },
+      "primary-hover": {
+        "role": "primary",
+        "displayName": "Deep Reference",
+        "canonical": "oklch(36% 0.09 242.749)",
+        "tonalRamp": [
+          "oklch(18% 0.045 242.7)",
+          "oklch(28% 0.07 242.7)",
+          "oklch(36% 0.09 242.7)",
+          "oklch(46% 0.105 242.7)",
+          "oklch(58% 0.09 242.7)",
+          "oklch(72% 0.065 242.7)",
+          "oklch(85% 0.04 242.7)",
+          "oklch(95% 0.015 242.7)"
+        ]
+      },
+      "focus": {
+        "role": "primary",
+        "displayName": "Focus Blue",
+        "canonical": "oklch(58.8% 0.158 241.966)",
+        "tonalRamp": [
+          "oklch(18% 0.07 242.7)",
+          "oklch(28% 0.11 242.7)",
+          "oklch(38% 0.14 242.7)",
+          "oklch(55% 0.158 242.7)",
+          "oklch(66% 0.14 242.7)",
+          "oklch(77% 0.10 242.7)",
+          "oklch(88% 0.06 242.7)",
+          "oklch(96% 0.02 242.7)"
+        ]
+      },
+      "accent-contrast": {
+        "role": "primary",
+        "displayName": "Paper White",
+        "canonical": "oklch(100% 0 0)",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(27% 0 0)",
+          "oklch(39% 0 0)",
+          "oklch(51% 0 0)",
+          "oklch(63% 0 0)",
+          "oklch(75% 0 0)",
+          "oklch(86% 0 0)",
+          "oklch(95% 0 0)"
+        ]
+      },
+      "neutral-ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "oklch(18% 0.01 250)",
+        "tonalRamp": [
+          "oklch(18% 0.01 250)",
+          "oklch(30% 0.012 250)",
+          "oklch(42% 0.014 250)",
+          "oklch(54% 0.016 250)",
+          "oklch(66% 0.016 250)",
+          "oklch(78% 0.014 250)",
+          "oklch(88% 0.01 250)",
+          "oklch(96% 0.005 250)"
+        ]
+      },
+      "neutral-muted": {
+        "role": "neutral",
+        "displayName": "Muted Ink",
+        "canonical": "oklch(45% 0.02 250)",
+        "tonalRamp": [
+          "oklch(18% 0.015 250)",
+          "oklch(30% 0.018 250)",
+          "oklch(45% 0.02 250)",
+          "oklch(55% 0.02 250)",
+          "oklch(65% 0.018 250)",
+          "oklch(75% 0.015 250)",
+          "oklch(86% 0.012 250)",
+          "oklch(95% 0.006 250)"
+        ]
+      },
+      "neutral-paper": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "canonical": "oklch(100% 0 0)",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(27% 0 0)",
+          "oklch(39% 0 0)",
+          "oklch(51% 0 0)",
+          "oklch(63% 0 0)",
+          "oklch(75% 0 0)",
+          "oklch(86% 0 0)",
+          "oklch(95% 0 0)"
+        ]
+      },
+      "neutral-rule": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "oklch(86.9% 0.022 252.894)",
+        "tonalRamp": [
+          "oklch(18% 0.02 252.9)",
+          "oklch(30% 0.022 252.9)",
+          "oklch(42% 0.024 252.9)",
+          "oklch(55% 0.026 252.9)",
+          "oklch(67% 0.026 252.9)",
+          "oklch(78% 0.024 252.9)",
+          "oklch(86.9% 0.022 252.9)",
+          "oklch(95% 0.012 252.9)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Name", "purpose": "The profile name on the home page only." },
+      "page-title": { "displayName": "Page Title", "purpose": "The single h1 on inner pages." },
+      "section-label": { "displayName": "Section Label", "purpose": "Uppercase section headings followed by a hairline rule." },
+      "company": { "displayName": "Company Heading", "purpose": "Sentence-case company names in the experience section." },
+      "role": { "displayName": "Role Heading", "purpose": "Role titles, paired with muted dates on one baseline row." },
+      "lede": { "displayName": "Lede", "purpose": "Home summary and page introductions." },
+      "body": { "displayName": "Body", "purpose": "Bullet lists, entries, and running copy." },
+      "meta": { "displayName": "Meta", "purpose": "Dates, header contact line, footer, and small labels." }
+    },
+    "shadows": [],
+    "motion": [
+      { "name": "ease-link", "value": "150ms ease", "purpose": "Color, underline, border, and background transitions on links and the CTA." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" },
+      { "name": "2xl", "value": "1536px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Inline Link",
+      "kind": "custom",
+      "refersTo": "link",
+      "description": "The default interactive style for email, LinkedIn, projects, and references.",
+      "html": "<p>Read the <a class=\"ds-link\" href=\"#\">professional experience</a>.</p>",
+      "css": ".ds-link { color: oklch(50% 0.134 242.749); text-decoration-line: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; transition: color 150ms ease; } .ds-link:hover { color: oklch(36% 0.09 242.749); } .ds-link:focus-visible { outline: 2px solid oklch(58.8% 0.158 241.966); outline-offset: 2px; }"
+    },
+    {
+      "name": "Section Label",
+      "kind": "custom",
+      "refersTo": "section-label",
+      "description": "Uppercase 14px label followed by a 1px hairline and 20px of space before content.",
+      "html": "<div class=\"ds-section\"><h2 class=\"ds-section-label\">Professional experience</h2><hr class=\"ds-section-rule\" /></div>",
+      "css": ".ds-section-label { font-family: var(--font-spectral), Georgia, serif; font-size: 0.875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; line-height: 1.6; color: oklch(18% 0.01 250); margin: 0; } .ds-section-rule { margin: 12px 0 20px; border: 0; border-top: 1px solid oklch(86.9% 0.022 252.894); }"
+    },
+    {
+      "name": "Role Entry",
+      "kind": "custom",
+      "refersTo": "body",
+      "description": "Role title and muted dates on one baseline row from 640px, followed by a bulleted list.",
+      "html": "<article class=\"ds-role\"><div class=\"ds-role-row\"><h4 class=\"ds-role-title\">Head of Engineering</h4><p class=\"ds-role-dates\"><time datetime=\"2023-01\">2023</time> - Present</p></div><ul class=\"ds-role-list\"><li>Grew throughput by 125%.</li><li>Eliminated Shadow AI.</li></ul></article>",
+      "css": ".ds-role { margin-top: 20px; font-family: var(--font-spectral), Georgia, serif; color: oklch(18% 0.01 250); } .ds-role-row { display: flex; flex-direction: column; gap: 4px; } @media (min-width: 640px) { .ds-role-row { flex-direction: row; align-items: baseline; justify-content: space-between; gap: 16px; } .ds-role-dates { text-align: right; } } .ds-role-title { font-size: 1.0625rem; font-weight: 600; line-height: 1.65; margin: 0; } .ds-role-dates { font-size: 0.875rem; font-weight: 400; line-height: 1.6; color: oklch(45% 0.02 250); font-variant-numeric: tabular-nums; margin: 0; } .ds-role-list { margin: 12px 0 0; padding-left: 20px; list-style: disc; line-height: 1.65; } .ds-role-list li + li { margin-top: 8px; }"
+    },
+    {
+      "name": "Plain List",
+      "kind": "custom",
+      "refersTo": "body",
+      "description": "Running-text entries for education and links, separated by 8px.",
+      "html": "<ul class=\"ds-plain-list\"><li><strong>Catholic University of Milan</strong> – Computer Science, 2010</li><li><strong>MissPlitty</strong>: an Android app.</li></ul>",
+      "css": ".ds-plain-list { margin: 16px 0 0; padding: 0; list-style: none; font-family: var(--font-spectral), Georgia, serif; font-size: 1.0625rem; line-height: 1.65; color: oklch(18% 0.01 250); } .ds-plain-list li + li { margin-top: 8px; } .ds-plain-list strong { font-weight: 600; }"
+    },
+    {
+      "name": "Site Header",
+      "kind": "custom",
+      "refersTo": "display",
+      "description": "Full-width header band with a hairline rule, brand, and labeled primary navigation. Wraps at narrow widths.",
+      "html": "<header class=\"ds-site-header\"><div class=\"ds-container ds-site-header-inner\"><a class=\"ds-brand\" href=\"/\">Fabio Maffioletti</a><nav class=\"ds-nav\" aria-label=\"Primary\"><a href=\"/\" aria-current=\"page\">Home</a><a href=\"/#experience\">Experience</a><a href=\"/#contact\">Contact</a></nav></div></header>",
+      "css": ".ds-site-header { border-bottom: 1px solid oklch(86.9% 0.022 252.894); } .ds-container { width: 100%; max-width: 68ch; margin-inline: auto; padding-inline: 20px; } @media (min-width: 640px) { .ds-container { padding-inline: 24px; } } .ds-site-header-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; padding-block: 16px; font-family: var(--font-spectral), Georgia, serif; } .ds-brand { color: oklch(18% 0.01 250); font-size: 1.0625rem; font-weight: 600; line-height: 1.65; text-decoration: none; } .ds-brand:hover { color: oklch(36% 0.09 242.749); } .ds-nav { display: flex; flex-wrap: wrap; gap: 8px 16px; font-size: 0.875rem; line-height: 1.6; } .ds-nav a { color: oklch(45% 0.02 250); text-decoration: none; } .ds-nav a:hover { color: oklch(50% 0.134 242.749); text-decoration: underline; text-underline-offset: 3px; } .ds-nav a[aria-current=\"page\"] { color: oklch(18% 0.01 250); font-weight: 600; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; } .ds-brand:focus-visible, .ds-nav a:focus-visible { outline: 2px solid oklch(58.8% 0.158 241.966); outline-offset: 2px; }"
+    },
+    {
+      "name": "Primary CTA",
+      "kind": "custom",
+      "refersTo": "cta-button",
+      "description": "The only filled element on a page; one per page, square, at least 44px tall.",
+      "html": "<a class=\"ds-cta\" href=\"mailto:fabio.maffioletti@gmail.com\">Email me</a>",
+      "css": ".ds-cta { display: inline-flex; min-height: 44px; align-items: center; background: oklch(50% 0.134 242.749); color: oklch(100% 0 0); padding: 12px 20px; border-radius: 0; font-family: var(--font-spectral), Georgia, serif; font-size: 1.0625rem; font-weight: 600; line-height: 1.65; text-decoration: none; transition: background-color 150ms ease, color 150ms ease; } .ds-cta:hover { background: oklch(36% 0.09 242.749); color: oklch(100% 0 0); } .ds-cta:focus-visible { outline: 2px solid oklch(58.8% 0.158 241.966); outline-offset: 2px; }"
+    },
+    {
+      "name": "Footer",
+      "kind": "custom",
+      "refersTo": "meta",
+      "description": "Hairline top border, 32px vertical padding, muted contact and privacy text.",
+      "html": "<footer class=\"ds-footer\"><div class=\"ds-container\"><p><a href=\"mailto:fabio.maffioletti@gmail.com\">Email</a> <span aria-hidden=\"true\">·</span> <a href=\"https://www.linkedin.com/in/fabiomaffioletti/\">LinkedIn</a> <span aria-hidden=\"true\">·</span> <a href=\"/projects/android/missplitty/privacy-policy/\">Privacy</a></p><p class=\"ds-footer-note\">I hereby authorize the treatment of my personal data according to Italian legislative decree no. 196 dated 2003-06-30</p></div></footer>",
+      "css": ".ds-footer { margin-top: 64px; border-top: 1px solid oklch(86.9% 0.022 252.894); padding-block: 32px; font-family: var(--font-spectral), Georgia, serif; } .ds-footer p { margin: 0; font-size: 0.875rem; line-height: 1.6; color: oklch(45% 0.02 250); } .ds-footer p + p { margin-top: 12px; } .ds-footer a { color: oklch(45% 0.02 250); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; } .ds-footer a:hover { color: oklch(36% 0.09 242.749); } .ds-footer-note { font-size: 0.75rem; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Quiet Ledger",
+    "overview": "A self-published professional record, set like a well-made document but built as a small site. The page earns trust by getting out of the way: one serif family, near-black on white, a few hairline rules, and enough vertical air that the facts can be read without effort.\n\nThe system is deliberately conservative. The type family and its three weights are fixed; hierarchy comes from scale, weight, case, and space rather than new fonts or decoration. There is no card vocabulary, no shadow, and no ornamental frame. The single accent blue marks interaction: links and one primary call to action per page.\n\nThe result should feel authored and current: a credible professional record for CTOs, founders, and engineering leaders, not a template and not an AI-generated landing page.",
+    "keyCharacteristics": [
+      "One serif family (Spectral) at 400, 600, and 700, fixed.",
+      "Near-black on white; one blue reserved for interaction.",
+      "Flat: no shadows, cards, or decorative fills.",
+      "Structure from 1px hairline rules and 64px section rhythm.",
+      "Single reading column capped at 68 characters.",
+      "One filled CTA per page; every other action is a link."
+    ],
+    "rules": [
+      { "name": "The One Voice Rule", "body": "Reference Blue marks interaction only: links, focus, and the single primary CTA. It never decorates headings or icons, and the only filled surface it may color is the primary CTA.", "section": "colors" },
+      { "name": "The Paper Rule", "body": "Backgrounds stay white. The only exception is the one filled accent CTA on a page.", "section": "colors" },
+      { "name": "The Fixed Type Rule", "body": "The family, its three weights, and the absence of italic are fixed. Do not introduce another family, a display face, or decorative type treatment.", "section": "typography" },
+      { "name": "The Measure Rule", "body": "Running text never exceeds 68 characters per line, and it is never justified. Left alignment is the default at every width.", "section": "typography" },
+      { "name": "The One CTA Rule", "body": "A page has at most one filled CTA. Every other action is an inline link.", "section": "components" }
+    ],
+    "dos": [
+      "Do keep Spectral at 400, 600, and 700 only; do not add italic or another family.",
+      "Do cap running text at 68ch, left-aligned, with a 1.65 line height.",
+      "Do use 64px between top-level sections and a 1px Hairline rule under each section label.",
+      "Do reserve Reference Blue for links, focus, and the single CTA.",
+      "Do keep one h1 per page, a main landmark, a skip link, and a labeled primary navigation.",
+      "Do provide a visible focus state and a text cue for links that open a new tab."
+    ],
+    "donts": [
+      "Don't justify body text or let lines run wider than 68 characters.",
+      "Don't add shadows, rounded corners, cards, tinted panels, gradients, or decorative icons.",
+      "Don't add a second filled CTA or turn ordinary links into buttons.",
+      "Don't use color to signal hierarchy; hierarchy comes from scale, weight, case, and space.",
+      "Don't hide navigation behind a hamburger or a client-only disclosure for this few links.",
+      "Don't apply the navy-and-amber palette of og-image.png to the page; it is a separate social-card asset."
+    ]
+  }
+}

@@ -1,6 +1,9 @@
 import path from "node:path";
 import { access, readdir, readFile, stat } from "node:fs/promises";
 
+import { profile } from "../src/data/profile.ts";
+import { publishedRoutes, siteRoutes } from "../src/data/routes.ts";
+
 const out = path.resolve(process.cwd(), "out");
 const failures = [];
 
@@ -35,20 +38,23 @@ async function nonEmpty(relative) {
   }
 }
 
-let home = "";
-try {
-  home = await readOutput("index.html");
-  check("home page is exported", true);
-} catch {
-  check("home page is exported", false, "out/index.html is missing");
+function outputPathFor(routePath) {
+  return routePath === "/" ? "index.html" : `${routePath.slice(1)}index.html`;
 }
+
+function absoluteUrl(routePath) {
+  return `${profile.siteUrl}${routePath}`;
+}
+
+const home = await readOutput("index.html").catch(() => "");
+check("home page is exported", home.length > 0, "out/index.html is missing");
 
 if (home) {
   const content = [
     "Fabio Maffioletti",
+    "Head of Engineering",
     "Summary",
     "Professional experience",
-    "Head of Engineering",
     "Tidio",
     "Casavo Management Spa",
     "eBay Inc",
@@ -69,6 +75,9 @@ if (home) {
     "Additional information",
     "Languages: Italian (native), English (fluent)",
     "Avid reader.",
+    "Skip to content",
+    "aria-label=\"Primary\"",
+    "id=\"main\"",
   ];
 
   for (const text of content) {
@@ -113,6 +122,69 @@ if (home) {
   for (const [name, pattern, detail] of metadata) {
     check(`home page has ${name}`, pattern.test(home), detail);
   }
+
+  check(
+    "home page has one h1",
+    (home.match(/<h1[\s>]/g) ?? []).length === 1,
+  );
+  check(
+    "home page marks the current navigation item",
+    home.includes('aria-current="page"'),
+  );
+}
+
+for (const route of publishedRoutes()) {
+  const file = outputPathFor(route.path);
+  const html = await readOutput(file).catch(() => "");
+  const url = absoluteUrl(route.path);
+
+  check(`route ${route.path} is exported`, html.length > 0, `${file} is missing`);
+
+  if (!html) {
+    continue;
+  }
+
+  check(`route ${route.path} has its title`, html.includes(route.title));
+  check(
+    `route ${route.path} has a meta description`,
+    /<meta name="description" content="[^"]+"/.test(html),
+  );
+  check(
+    `route ${route.path} has the correct canonical`,
+    html.includes(`<link rel="canonical" href="${url}"`),
+    `expected ${url}`,
+  );
+  check(
+    `route ${route.path} has the correct og:url`,
+    html.includes(`<meta property="og:url" content="${url}"`),
+    `expected ${url}`,
+  );
+  check(
+    `route ${route.path} has an og:image`,
+    /<meta property="og:image" content="[^"]+"/.test(html),
+  );
+  check(
+    `route ${route.path} has one h1`,
+    (html.match(/<h1[\s>]/g) ?? []).length === 1,
+  );
+  check(
+    `route ${route.path} is linked from the navigation`,
+    html.includes(`href="${route.path}"`),
+  );
+}
+
+for (const route of siteRoutes.filter((item) => !item.published)) {
+  const html = await readOutput(outputPathFor(route.path)).catch(() => "");
+
+  check(
+    `unpublished route ${route.path} is exported`,
+    html.length > 0,
+    `${outputPathFor(route.path)} is missing`,
+  );
+  check(
+    `unpublished route ${route.path} is noindex`,
+    html.includes("noindex"),
+  );
 }
 
 try {
@@ -133,34 +205,45 @@ try {
   );
 }
 
-check("sitemap is exported", await exists("sitemap.xml"));
-if (await exists("sitemap.xml")) {
-  const sitemap = await readOutput("sitemap.xml");
-  check(
-    "sitemap lists the home page",
-    sitemap.includes("https://www.fabiomaffioletti.me/"),
-  );
+const sitemap = await readOutput("sitemap.xml").catch(() => "");
+check("sitemap is exported", sitemap.length > 0);
+
+if (sitemap) {
+  for (const route of publishedRoutes()) {
+    check(
+      `sitemap lists ${route.path}`,
+      sitemap.includes(absoluteUrl(route.path)),
+    );
+  }
+
+  for (const route of siteRoutes.filter((item) => !item.published)) {
+    check(
+      `sitemap excludes unpublished route ${route.path}`,
+      !sitemap.includes(absoluteUrl(route.path)),
+    );
+  }
+
   check(
     "sitemap lists the privacy page",
     sitemap.includes(
-      "https://www.fabiomaffioletti.me/projects/android/missplitty/privacy-policy/",
+      `${profile.siteUrl}/projects/android/missplitty/privacy-policy/`,
     ),
   );
 }
 
-check("robots file is exported", await exists("robots.txt"));
-if (await exists("robots.txt")) {
-  const robots = await readOutput("robots.txt");
+const robots = await readOutput("robots.txt").catch(() => "");
+check("robots file is exported", robots.length > 0);
+if (robots) {
   check("robots file points to the sitemap", robots.includes("Sitemap:"));
 }
 
 check("custom domain file is exported", await exists("CNAME"));
 if (await exists("CNAME")) {
-  const cname = await readOutput("CNAME");
+  const cname = (await readOutput("CNAME")).trim();
   check(
     "custom domain is correct",
-    cname.trim() === "www.fabiomaffioletti.me",
-    `got "${cname.trim()}"`,
+    cname === "www.fabiomaffioletti.me",
+    `got "${cname}"`,
   );
 }
 
@@ -168,8 +251,7 @@ check(".nojekyll marker is exported", await exists(".nojekyll"));
 check("favicon is exported", await nonEmpty("favicon.ico"));
 check("Open Graph image is exported", await nonEmpty("og-image.png"));
 
-const privacyPath =
-  "projects/android/missplitty/privacy-policy/index.html";
+const privacyPath = "projects/android/missplitty/privacy-policy/index.html";
 check("privacy page is exported", await exists(privacyPath));
 if (await exists(privacyPath)) {
   const privacy = await readOutput(privacyPath);

@@ -1,12 +1,24 @@
 interface SectionProps {
+  id: string;
   title: string;
+  children: React.ReactNode;
 }
 
-export default function Section({ title }: SectionProps) {
+export default function Section({ id, title, children }: SectionProps) {
   return (
-    <div>
-      <h2>{title}</h2>
-      <hr className="mt-2 border-slate-300" />
-    </div>
+    <section
+      id={id}
+      aria-labelledby={`${id}-title`}
+      className="mt-16 scroll-mt-8"
+    >
+      <h2
+        id={`${id}-title`}
+        className="text-sm font-semibold uppercase tracking-label"
+      >
+        {title}
+      </h2>
+      <hr className="mt-3 border-rule" />
+      <div className="mt-5">{children}</div>
+    </section>
   );
 }
