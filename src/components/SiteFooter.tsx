@@ -23,14 +23,6 @@ export default function SiteFooter() {
               LinkedIn<span className="sr-only"> (opens in a new tab)</span>
             </a>
           </li>
-          <li>
-            <a
-              href="/projects/android/missplitty/privacy-policy/"
-              className="text-muted hover:text-accent-hover"
-            >
-              Privacy
-            </a>
-          </li>
         </ul>
       </nav>
       <p className="mt-6 text-2xs">

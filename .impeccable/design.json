@@ -217,8 +217,8 @@
       "name": "Footer",
       "kind": "custom",
       "refersTo": "meta",
-      "description": "Hairline top border, 32px vertical padding, muted contact and privacy text.",
-      "html": "<footer class=\"ds-footer\"><div class=\"ds-container\"><p><a href=\"mailto:fabio.maffioletti@gmail.com\">Email</a> <span aria-hidden=\"true\">·</span> <a href=\"https://www.linkedin.com/in/fabiomaffioletti/\">LinkedIn</a> <span aria-hidden=\"true\">·</span> <a href=\"/projects/android/missplitty/privacy-policy/\">Privacy</a></p><p class=\"ds-footer-note\">I hereby authorize the treatment of my personal data according to Italian legislative decree no. 196 dated 2003-06-30</p></div></footer>",
+      "description": "Hairline top border, 32px vertical padding, muted contact text.",
+      "html": "<footer class=\"ds-footer\"><div class=\"ds-container\"><p><a href=\"mailto:fabio.maffioletti@gmail.com\">Email</a> <span aria-hidden=\"true\">·</span> <a href=\"https://www.linkedin.com/in/fabiomaffioletti/\">LinkedIn</a></p><p class=\"ds-footer-note\">I hereby authorize the treatment of my personal data according to Italian legislative decree no. 196 dated 2003-06-30</p></div></footer>",
       "css": ".ds-footer { margin-top: 64px; border-top: 1px solid oklch(86.9% 0.022 252.894); padding-block: 32px; font-family: var(--font-spectral), Georgia, serif; } .ds-footer p { margin: 0; font-size: 0.875rem; line-height: 1.6; color: oklch(45% 0.02 250); } .ds-footer p + p { margin-top: 12px; } .ds-footer a { color: oklch(45% 0.02 250); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; } .ds-footer a:hover { color: oklch(36% 0.09 242.749); } .ds-footer-note { font-size: 0.75rem; }"
     }
   ],

@@ -240,7 +240,7 @@ Square. There is no border radius anywhere; corners are 0. The geometry is the 1
 - **Style:** Disc markers with 20px indent and 8px between items. Education and links use plain lists with a bold term inside running text; no definition-list markup without terms.
 
 ### Footer
-- **Style:** 1px Hairline top border, 32px vertical padding, 0.875rem Muted Ink. Contact links and the privacy link sit above the data-treatment note at 0.75rem.
+- **Style:** 1px Hairline top border, 32px vertical padding, 0.875rem Muted Ink. Contact links sit above the data-treatment note at 0.75rem.
 
 ## Do's and Don'ts
 
