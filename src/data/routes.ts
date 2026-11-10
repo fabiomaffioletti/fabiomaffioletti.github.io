@@ -15,7 +15,7 @@ export const siteRoutes: SiteRoute[] = [
   {
     key: "home",
     path: "/",
-    label: "Home",
+    label: "About",
     title:
       "Fabio Maffioletti – Head of Engineering | Senior Engineering Manager | Technology Leader",
     description:

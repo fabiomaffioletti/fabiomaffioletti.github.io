@@ -33,7 +33,7 @@ export default function ContactCTA({
     <section
       id="contact"
       aria-labelledby="contact-title"
-      className={`mt-16 scroll-mt-8 border-t border-rule pt-[2rem] ${className}`}
+      className={`mt-16 scroll-mt-24 border-t border-rule pt-[2rem] ${className}`}
     >
       <h2
         id="contact-title"
@@ -42,22 +42,25 @@ export default function ContactCTA({
         Contact
       </h2>
       <p className="mt-4 text-lg text-fg">{copy[context]}</p>
-      <div className="mt-6 flex flex-wrap items-center gap-4">
+      <div className="mt-6">
         <a
           href={mailto}
           className="inline-flex min-h-11 items-center bg-accent px-5 py-3 text-base font-semibold text-accent-contrast no-underline transition-colors hover:bg-accent-hover hover:text-accent-contrast"
         >
           Email Fabio
         </a>
-        <a
-          href={profile.linkedin}
-          target="_blank"
-          rel="noreferrer"
-          className="inline-flex min-h-11 items-center text-base"
-        >
+      </div>
+      <p className="mt-4 text-sm text-muted">
+        {profile.location}
+        <span aria-hidden="true"> · </span>
+        <a href={`mailto:${profile.email}`} className="break-words">
+          {profile.email}
+        </a>
+        <span aria-hidden="true"> · </span>
+        <a href={profile.linkedin} target="_blank" rel="noreferrer">
           LinkedIn<span className="sr-only"> (opens in a new tab)</span>
         </a>
-      </div>
+      </p>
     </section>
   );
 }

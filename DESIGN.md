@@ -161,7 +161,7 @@ A single centered column using the same Bootstrap-style width ladder as the prev
 
 Vertical rhythm is generous and uniform: 64px above each top-level section, 32px between the header and the first section, and 32px of internal spacing inside bordered blocks. Section labels sit 12px above their hairline rule, and content begins 20px below it. Companies are separated by 32px and roles by 20px. List items are separated by 8px with a 20px indent.
 
-The site header is a full-width band with a bottom hairline; its inner content uses the same page column. The brand sits left and the navigation right, wrapping at narrow widths. The home hero is centered; inner pages use a left-aligned page header. The CTA and footer close every page on the same column.
+The site header is a full-width sticky band with a bottom hairline and Paper background; its inner content uses the same page column. The primary navigation sits left and wraps at narrow widths. The home hero is centered; inner pages use a left-aligned page header. The CTA and footer close every page on the same column.
 
 Responsive behavior is mobile-first from 360px. Role title and dates stack below 640px, then share a baseline row with space between them. Navigation wraps rather than hiding behind a menu; no client-side disclosure is needed for three links.
 
