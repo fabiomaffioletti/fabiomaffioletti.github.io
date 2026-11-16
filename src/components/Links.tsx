@@ -1,4 +1,3 @@
-import Section from "./Section";
 import type { LinkItem } from "@/data/curriculum";
 
 interface LinksProps {
@@ -7,18 +6,16 @@ interface LinksProps {
 
 export default function Links({ links }: LinksProps) {
   return (
-    <section className="mt-12">
-      <Section title="Personal projects and links" />
-      <dl className="mt-4 space-y-2 leading-relaxed">
+    <section className="section cv" id="links">
+      <h2>Projects and links</h2>
+      <div className="cv-links">
         {links.map((item) => (
-          <dd key={item.id}>
-            <a href={item.href} target="_blank" rel="noreferrer">
-              {item.title}
-            </a>
-            : {item.description}
-          </dd>
+          <a key={item.id} href={item.href} target="_blank" rel="noreferrer">
+            <strong>{item.title}</strong>
+            <span>{item.description}</span>
+          </a>
         ))}
-      </dl>
+      </div>
     </section>
   );
 }

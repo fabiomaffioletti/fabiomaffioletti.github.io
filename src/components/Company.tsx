@@ -7,11 +7,13 @@ interface CompanyProps {
 
 export default function Company({ company }: CompanyProps) {
   return (
-    <div className="mt-8">
-      <h3 className="mb-2">{company.name}</h3>
-      {company.roles.map((role) => (
-        <Role key={role.id} role={role} />
-      ))}
+    <div className="cv-row">
+      <h3 className="cv-company">{company.name}</h3>
+      <div>
+        {company.roles.map((role) => (
+          <Role key={role.id} role={role} />
+        ))}
+      </div>
     </div>
   );
 }

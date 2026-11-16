@@ -1,18 +1,21 @@
-import Section from "./Section";
+import type { InfoItem } from "@/data/curriculum";
 
 interface AdditionalInfoProps {
-  additionalInfo: string[];
+  additionalInfo: InfoItem[];
 }
 
 export default function AdditionalInfo({ additionalInfo }: AdditionalInfoProps) {
   return (
-    <section className="mt-12">
-      <Section title="Additional information" />
-      <ul className="mt-4 list-disc space-y-2 pl-5 leading-relaxed">
+    <section className="section cv" id="more">
+      <h2>Beyond the CV</h2>
+      <dl className="cv-list two">
         {additionalInfo.map((item) => (
-          <li key={item}>{item}</li>
+          <div key={item.id}>
+            <dt>{item.label}</dt>
+            <dd>{item.value}</dd>
+          </div>
         ))}
-      </ul>
+      </dl>
     </section>
   );
 }

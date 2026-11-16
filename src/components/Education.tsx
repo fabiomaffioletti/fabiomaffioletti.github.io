@@ -1,4 +1,3 @@
-import Section from "./Section";
 import type { EducationItem } from "@/data/curriculum";
 
 interface EducationProps {
@@ -7,14 +6,15 @@ interface EducationProps {
 
 export default function Education({ education }: EducationProps) {
   return (
-    <section className="mt-12">
-      <Section title="Education and courses" />
-
-      <dl className="mt-4 space-y-2 leading-relaxed">
+    <section className="section cv" id="education">
+      <h2>Education and training</h2>
+      <dl className="cv-list">
         {education.map((item) => (
-          <dd key={item.id}>
-            <strong>{item.name}</strong> – {item.description}, {item.date}
-          </dd>
+          <div key={item.id}>
+            <dt>{item.name}</dt>
+            <dd>{item.description}</dd>
+            <dd className="when">{item.date}</dd>
+          </div>
         ))}
       </dl>
     </section>
