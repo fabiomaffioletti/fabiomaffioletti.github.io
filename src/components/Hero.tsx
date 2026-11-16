@@ -10,7 +10,7 @@ interface HeroProps {
    and lets its title run wider. */
 export default function Hero({ title, lead, sub, actions, intro }: HeroProps) {
   return (
-    <section className="relative isolate px-gutter pt-[clamp(5rem,12vw,10rem)] pb-[clamp(3.5rem,8vw,6.5rem)] text-center before:pointer-events-none before:absolute before:inset-[-10%_10%_20%] before:-z-10 before:bg-[radial-gradient(50%_55%_at_50%_30%,rgb(185_168_255/16%),transparent_70%)] before:content-['']">
+    <section className="relative isolate px-gutter pt-[clamp(5rem,12vw,10rem)] pb-[clamp(3.5rem,8vw,6.5rem)] text-center before:pointer-events-none before:absolute before:inset-[-10%_10%_20%] before:-z-10 before:bg-[radial-gradient(50%_55%_at_50%_30%,var(--color-glow),transparent_70%)] before:content-['']">
       <h1
         className={`m-0 mx-auto text-[clamp(2.7rem,6.2vw,6rem)] leading-none ${intro ? "" : "max-w-[18ch]"}`}
       >

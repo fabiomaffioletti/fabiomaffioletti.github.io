@@ -11,6 +11,8 @@
   --color-accent: #b9a8ff;
   --color-on-accent: #16131f;
   --color-accent-soft: #c6b8ff;
+  /* The lilac glow behind each page header */
+  --color-glow: rgb(185 168 255 / 16%);
 
   --font-display: var(--font-bricolage), system-ui, sans-serif;
   --font-body: var(--font-figtree), system-ui, sans-serif;
@@ -19,6 +21,24 @@
 
   --breakpoint-tablet: 37.5rem;
   --breakpoint-desktop: 60rem;
+}
+
+/* The light palette. The dark one above is the default; setting data-theme="light" on <html>
+   swaps every colour token, so components keep using bg-canvas, text-muted and the rest. */
+@layer theme {
+  html[data-theme="light"] {
+    --color-canvas: #f6f5f8;
+    --color-panel: #ffffff;
+    --color-panel-2: #efedf5;
+    --color-line: #e2e0e8;
+    --color-line-strong: #bdbbc7;
+    --color-fg: #141318;
+    --color-muted: #5d5c68;
+    --color-accent: #5b3fd0;
+    --color-on-accent: #ffffff;
+    --color-accent-soft: #4a31b0;
+    --color-glow: rgb(91 63 208 / 9%);
+  }
 }
 
 /* The side gutter every full-width block shares */
@@ -33,6 +53,10 @@
 @layer base {
   html {
     color-scheme: dark;
+  }
+
+  html[data-theme="light"] {
+    color-scheme: light;
   }
 
   body {

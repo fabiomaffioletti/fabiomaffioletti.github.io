@@ -5,6 +5,7 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
 
 import { profile } from "@/data/profile";
+import { themeScript } from "@/lib/theme";
 
 const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
@@ -68,7 +69,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${bricolage.variable} ${figtree.variable}`}>
+    <html
+      lang="en"
+      data-theme="dark"
+      className={`${bricolage.variable} ${figtree.variable}`}
+      suppressHydrationWarning
+    >
+      <head>
+        {/* Applies a saved theme before first paint; see src/lib/theme.ts */}
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body>
         {children}
         <GoogleAnalytics gaId="G-09GX8HGR97" />

@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import ThemeToggle from "./ThemeToggle";
+
 const links = [
   { href: "/", label: "Home" },
   { href: "/engineering-leadership/", label: "Engineering Leadership" },
@@ -39,6 +41,7 @@ export default function SiteNav() {
         >
           Get in touch
         </a>
+        <ThemeToggle />
       </nav>
     </header>
   );
