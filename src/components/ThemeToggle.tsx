@@ -1,8 +1,14 @@
 "use client";
 
-import { useLayoutEffect, useSyncExternalStore } from "react";
+import { useEffect, useLayoutEffect, useSyncExternalStore } from "react";
 
-import { readStoredTheme, THEME_STORAGE_KEY, type Theme } from "@/lib/theme";
+import {
+  LIGHT_QUERY,
+  readStoredTheme,
+  systemTheme,
+  THEME_STORAGE_KEY,
+  type Theme,
+} from "@/lib/theme";
 
 /* The theme lives on <html data-theme>, set before first paint by the script in the root
    layout. This button reads it from there and flips it, saving the visitor's choice. */
@@ -47,15 +53,25 @@ function MoonIcon() {
 }
 
 export default function ThemeToggle() {
-  /* The static HTML is rendered dark; after hydration this follows <html data-theme>. */
+  /* The static HTML is rendered dark (the fallback); after hydration this follows <html data-theme>. */
   const theme = useSyncExternalStore(subscribe, currentTheme, () => "dark" as Theme);
   const next: Theme = theme === "dark" ? "light" : "dark";
 
   /* In development React resets <html> attributes on its Strict Mode remount, clearing the
-     one the inline script set. Re-apply the stored choice; a no-op in production. */
+     one the inline script set. Re-apply it; a no-op in production. */
   useLayoutEffect(() => {
-    const stored = readStoredTheme();
-    if (stored) document.documentElement.dataset.theme = stored;
+    document.documentElement.dataset.theme = readStoredTheme() ?? systemTheme();
+  }, []);
+
+  /* Until the visitor picks a theme, follow the operating system when its setting changes. */
+  useEffect(() => {
+    const media = window.matchMedia?.(LIGHT_QUERY);
+    if (!media) return;
+    const follow = () => {
+      if (!readStoredTheme()) document.documentElement.dataset.theme = systemTheme();
+    };
+    media.addEventListener("change", follow);
+    return () => media.removeEventListener("change", follow);
   }, []);
 
   function toggle() {

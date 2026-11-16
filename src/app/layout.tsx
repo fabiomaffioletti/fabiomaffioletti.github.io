@@ -76,7 +76,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
-        {/* Applies a saved theme before first paint; see src/lib/theme.ts */}
+        {/* Applies the saved or system theme before first paint; see src/lib/theme.ts */}
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body>
