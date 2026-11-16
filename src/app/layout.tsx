@@ -4,7 +4,7 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 
 import "./globals.css";
 
-import { profile, yearsOfExperience } from "@/data/profile";
+import { profile } from "@/data/profile";
 
 const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
@@ -21,7 +21,8 @@ const figtree = Figtree({
 
 const title = `${profile.name} – ${profile.headline}`;
 
-const description = `Engineering leader and executive coach with ${yearsOfExperience()}+ years in the tech industry, helping product companies build effective engineering teams and people in tech through the AI era.`;
+const description =
+  "Senior engineering leader and executive coach, helping product companies build effective engineering teams and coaching people in tech through the AI era.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(profile.siteUrl),

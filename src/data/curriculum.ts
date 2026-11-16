@@ -39,6 +39,7 @@ export interface LinkItem {
 }
 
 export interface Curriculum {
+  /** Paragraphs of the CV summary; {years} is replaced by the live years of experience. */
   summary: string[];
   experience: {
     companies: Company[];
@@ -51,7 +52,7 @@ export interface Curriculum {
 
 export const curriculum: Curriculum = {
   summary: [
-    "With over 18 years of experience in the technology industry, I have grown from hands-on software engineering and architecture roles to leading engineering organizations and driving technology strategy. Throughout my career, I have helped startups and established companies build and scale high-performing teams, modernize engineering practices, and deliver technology solutions that create measurable business impact.",
+    "With over {years} years of experience in the technology industry, I have grown from hands-on software engineering and architecture roles to leading engineering organizations and driving technology strategy. Throughout my career, I have helped startups and established companies build and scale high-performing teams, modernize engineering practices, and deliver technology solutions that create measurable business impact.",
     "Today, I focus on the intersection of technology leadership, AI strategy, and organizational transformation. I believe AI is not just a technological shift, but an opportunity to rethink how organizations operate, collaborate and create value.",
     "I have led initiatives to accelerate engineering productivity through AI adoption, establish AI governance frameworks, mitigate Shadow AI risks, and optimize AI operational costs. My approach combines strategic vision with hands-on execution, empowering teams across functions to adopt AI responsibly and effectively while maintaining quality, security and business alignment.",
     "As an Executive Coach and people-centric leader, I am passionate about building environments where people and teams can thrive. I believe sustainable performance comes from trust, psychological safety, open communication, continuous learning, and shared ownership. I strive to develop leaders, empower individuals and evolve organizational structures to meet the challenges of an increasingly AI-driven world.",
