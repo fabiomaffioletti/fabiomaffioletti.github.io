@@ -85,14 +85,14 @@ export default function ExecutiveCoaching() {
           sub="1:1 coaching for software engineers, engineering managers and executives, technical or not, working out what comes next in a market that AI keeps rewriting"
           actions={
             <>
-              <a className={buttonStyles.solid} href="#contact">
-                Book a session
-              </a>
               <a className={buttonStyles.ghost} href="#how">
                 How it works
               </a>
               <a className={buttonStyles.ghost} href="#pricing">
                 Pricing
+              </a>
+              <a className={buttonStyles.solid} href="#contact">
+                Book a session
               </a>
             </>
           }
