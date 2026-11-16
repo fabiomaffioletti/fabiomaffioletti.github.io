@@ -51,11 +51,11 @@ export default function FractionalCto() {
           sub="Senior technology leadership with the flexibility you need, for startups and scale-ups not ready to commit to a full-time CTO"
           actions={
             <>
-              <a className={buttonStyles.solid} href="#contact">
-                Book a first conversation
-              </a>
               <a className={buttonStyles.ghost} href="#what">
                 What a fractional CTO does
+              </a>
+              <a className={buttonStyles.solid} href="#contact">
+                Book a first conversation
               </a>
             </>
           }
