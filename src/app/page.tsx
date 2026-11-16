@@ -103,11 +103,11 @@ export default function Home() {
           }
           actions={
             <>
-              <a className={buttonStyles.solid} href="#contact">
-                Get in touch
-              </a>
               <a className={buttonStyles.ghost} href="#services">
                 See how I can help
+              </a>
+              <a className={buttonStyles.solid} href="#contact">
+                Get in touch
               </a>
             </>
           }
