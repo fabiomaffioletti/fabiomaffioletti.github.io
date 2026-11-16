@@ -140,7 +140,7 @@ export default function Home() {
             {services.map((service) => (
               <article
                 key={service.title}
-                className="flex flex-col rounded-2xl border border-line bg-panel p-8 transition-colors duration-200 hover:border-line-strong hover:bg-panel-2 motion-reduce:transition-none"
+                className="relative flex flex-col rounded-2xl border border-line bg-panel p-8 transition-colors duration-200 hover:border-line-strong hover:bg-panel-2 has-[a:focus-visible]:border-accent motion-reduce:transition-none"
               >
                 <p className="m-0 text-[.95rem] text-accent-soft">{service.audience}</p>
                 <h3 className="mt-2.5 text-[clamp(1.6rem,1.9vw,2rem)] leading-[1.08] font-semibold">
@@ -154,7 +154,11 @@ export default function Home() {
                     </li>
                   ))}
                 </ul>
-                <Link href={service.href} className="mt-auto">
+                {/* The link's ::after covers the whole card, so the card is clickable as one target */}
+                <Link
+                  href={service.href}
+                  className="mt-auto after:absolute after:inset-0 after:rounded-2xl after:content-[''] focus-visible:outline-none"
+                >
                   {service.link}
                 </Link>
               </article>
