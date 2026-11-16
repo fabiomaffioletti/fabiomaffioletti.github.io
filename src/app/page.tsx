@@ -4,6 +4,7 @@ import SiteNav from "@/components/SiteNav";
 import Hero from "@/components/Hero";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+import YearsOfExperience from "@/components/YearsOfExperience";
 import { Section, buttonStyles, headingStyles } from "@/components/ui";
 
 import { profile, yearsOfExperience } from "@/data/profile";
@@ -24,7 +25,15 @@ const personJsonLd = {
 };
 
 const stats = [
-  { pre: "More than", value: `${yearsOfExperience()} years`, post: "in the tech industry" },
+  {
+    pre: "More than",
+    value: (
+      <>
+        <YearsOfExperience buildValue={yearsOfExperience()} /> years
+      </>
+    ),
+    post: "in the tech industry",
+  },
   { pre: "Led up to", value: "50 people", post: "in one org" },
   { pre: "Delivered", value: "+125%", post: "engineering throughput" },
   { pre: "Achieved", value: "9.29 / 10", post: "team eNPS" },
@@ -110,7 +119,7 @@ export default function Home() {
         >
           {stats.map((stat) => (
             <div
-              key={stat.value}
+              key={stat.post}
               className="border-line px-gutter py-8 even:border-l nth-[n+3]:border-t desktop:border-l desktop:first:border-l-0 desktop:nth-[n+3]:border-t-0"
             >
               <span className="mb-[.3rem] block text-[.95rem] text-muted">{stat.pre}</span>
