@@ -1,5 +1,5 @@
 import Company from "./Company";
-import Section from "./Section";
+import { Section } from "./ui";
 import type { Company as CompanyType } from "@/data/curriculum";
 
 interface CompaniesProps {
@@ -8,12 +8,10 @@ interface CompaniesProps {
 
 export default function Companies({ companies }: CompaniesProps) {
   return (
-    <section className="mt-12">
-      <Section title="Professional experience" />
-
+    <Section id="experience" title="Experience" ruled>
       {companies.map((company) => (
         <Company key={company.id} company={company} />
       ))}
-    </section>
+    </Section>
   );
 }

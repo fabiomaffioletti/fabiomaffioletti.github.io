@@ -1,48 +1,79 @@
 @import "tailwindcss";
 
+@theme {
+  --color-canvas: #111113;
+  --color-panel: #19191c;
+  --color-panel-2: #202024;
+  --color-line: #2a2a2f;
+  --color-line-strong: #46464e;
+  --color-fg: #f1f1f3;
+  --color-muted: #9d9da7;
+  --color-accent: #b9a8ff;
+  --color-on-accent: #16131f;
+  --color-accent-soft: #c6b8ff;
+  /* The lilac glow behind each page header */
+  --color-glow: rgb(185 168 255 / 16%);
+
+  --font-display: var(--font-bricolage), system-ui, sans-serif;
+  --font-body: var(--font-figtree), system-ui, sans-serif;
+
+  --tracking-display: -0.028em;
+
+  --breakpoint-tablet: 37.5rem;
+  --breakpoint-desktop: 60rem;
+}
+
+/* The light palette. The dark one above is the default; setting data-theme="light" on <html>
+   swaps every colour token, so components keep using bg-canvas, text-muted and the rest. */
+@layer theme {
+  html[data-theme="light"] {
+    --color-canvas: #f6f5f8;
+    --color-panel: #ffffff;
+    --color-panel-2: #efedf5;
+    --color-line: #e2e0e8;
+    --color-line-strong: #bdbbc7;
+    --color-fg: #141318;
+    --color-muted: #5d5c68;
+    --color-accent: #5b3fd0;
+    --color-on-accent: #ffffff;
+    --color-accent-soft: #4a31b0;
+    --color-glow: rgb(91 63 208 / 9%);
+  }
+}
+
+/* The side gutter every full-width block shares */
+@utility px-gutter {
+  padding-inline: clamp(1.25rem, 5vw, 5rem);
+}
+
+@utility mx-gutter {
+  margin-inline: clamp(1.25rem, 5vw, 5rem);
+}
+
 @layer base {
+  html {
+    color-scheme: dark;
+  }
+
+  html[data-theme="light"] {
+    color-scheme: light;
+  }
+
   body {
-    font-family: var(--font-spectral), serif;
+    @apply bg-canvas font-body text-[1.0625rem] leading-[1.65] text-fg;
   }
 
-  h1 {
-    font-weight: 700;
-  }
-
-  h2 {
-    font-size: 20px;
-    font-weight: 700;
-    text-transform: uppercase;
-  }
-
+  h1,
+  h2,
   h3 {
-    font-size: 18px;
-    font-weight: 700;
-    text-transform: uppercase;
-  }
-
-  h4 {
-    font-size: 16px;
-    font-weight: 600;
+    @apply font-display font-medium tracking-display text-balance;
   }
 
   a {
-    color: #0369a1;
-    text-decoration-line: underline;
-    text-decoration-color: rgb(3 105 161 / 40%);
-    text-underline-offset: 2px;
-    transition:
-      color 150ms ease,
-      text-decoration-color 150ms ease;
+    @apply text-accent-soft underline decoration-accent-soft/40 underline-offset-3 hover:decoration-current;
   }
 
-  a:hover {
-    color: #0c4a6e;
-    text-decoration-color: currentColor;
-  }
-
-  a:focus-visible {
-    outline: 2px solid #0284c7;
-    outline-offset: 2px;
+  :focus-visible {
+    @apply outline-2 outline-offset-3 outline-accent;
   }
 }

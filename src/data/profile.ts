@@ -16,8 +16,7 @@ export interface Profile {
 export const profile: Profile = {
   name: "Fabio Maffioletti",
   jobTitle: "Head of Engineering",
-  headline:
-    "Head of Engineering | Senior Engineering Manager | Technology Leader",
+  headline: "Engineering Leader, Executive Coach, Fractional CTO",
   location: "Milan, Italy",
   email: "fabio.maffioletti@gmail.com",
   linkedin: "https://www.linkedin.com/in/fabiomaffioletti/",

@@ -19,6 +19,18 @@ export interface EducationItem {
   date: string;
 }
 
+export interface SkillGroup {
+  id: string;
+  label: string;
+  items: string[];
+}
+
+export interface InfoItem {
+  id: string;
+  label: string;
+  value: string;
+}
+
 export interface LinkItem {
   id: string;
   title: string;
@@ -27,16 +39,24 @@ export interface LinkItem {
 }
 
 export interface Curriculum {
+  /** Paragraphs of the CV summary; {years} is replaced by the live years of experience. */
+  summary: string[];
   experience: {
     companies: Company[];
   };
   education: EducationItem[];
-  skills: string[];
+  skills: SkillGroup[];
   links: LinkItem[];
-  additionalInfo: string[];
+  additionalInfo: InfoItem[];
 }
 
 export const curriculum: Curriculum = {
+  summary: [
+    "With over {years} years of experience in the technology industry, I have grown from hands-on software engineering and architecture roles to leading engineering organizations and driving technology strategy. Throughout my career, I have helped startups and established companies build and scale high-performing teams, modernize engineering practices, and deliver technology solutions that create measurable business impact.",
+    "Today, I focus on the intersection of technology leadership, AI strategy, and organizational transformation. I believe AI is not just a technological shift, but an opportunity to rethink how organizations operate, collaborate and create value.",
+    "I have led initiatives to accelerate engineering productivity through AI adoption, establish AI governance frameworks, mitigate Shadow AI risks, and optimize AI operational costs. My approach combines strategic vision with hands-on execution, empowering teams across functions to adopt AI responsibly and effectively while maintaining quality, security and business alignment.",
+    "As an Executive Coach and people-centric leader, I am passionate about building environments where people and teams can thrive. I believe sustainable performance comes from trust, psychological safety, open communication, continuous learning, and shared ownership. I strive to develop leaders, empower individuals and evolve organizational structures to meet the challenges of an increasingly AI-driven world.",
+  ],
   experience: {
     companies: [
       {
@@ -112,7 +132,7 @@ export const curriculum: Curriculum = {
             id: "ebay-software-engineering-manager",
             name: "Software Engineering Manager",
             description: [
-              "Guided the technical discussion during the management team’s weekly meeting,",
+              "Guided the technical discussion during the management team’s weekly meeting",
               "Defined short & long term technical strategy for the evolution of product and infrastructure, analyzed feasibility and provided estimations based on team’s capacity, ensuring 100% delivery on time and budget",
               "Recruited, formed and led a new technical team of 10 senior professionals, strengthened team culture and motivated engineers according to company's goals & values; 20% hands-on software & architecture",
               "Promoted and achieved cross-functional collaboration with product, data, marketing, business stakeholders",
@@ -193,7 +213,7 @@ export const curriculum: Curriculum = {
       id: "eec-executive-coaching",
       name: "Escuela Europea de Coaching",
       description: "Executive Coaching",
-      date: "2024 - 2025",
+      date: "2024 – 2025",
     },
     {
       id: "remote-how-academy-for-managers",
@@ -215,8 +235,43 @@ export const curriculum: Curriculum = {
     },
   ],
   skills: [
-    "People management, Engineering management, Agile methodologies, Hiring, Coaching, Technical strategy, Conflict resolution, Organizational design, Remote management, Nonviolent communication, OKR, Stakeholder management, Scaling engineering teams",
-    "System design, Java, Spring, Python, Redis, MySQL, Elasticsearch, RabbitMQ, Docker, TDD, DDD, CI/CD",
+    {
+      id: "leadership",
+      label: "Leadership",
+      items: [
+        "People management",
+        "Engineering management",
+        "Agile methodologies",
+        "Hiring",
+        "Coaching",
+        "Technical strategy",
+        "Conflict resolution",
+        "Organizational design",
+        "Remote management",
+        "Nonviolent communication",
+        "OKR",
+        "Stakeholder management",
+        "Scaling engineering teams",
+      ],
+    },
+    {
+      id: "technical",
+      label: "Technical",
+      items: [
+        "System design",
+        "Java",
+        "Spring",
+        "Python",
+        "Redis",
+        "MySQL",
+        "Elasticsearch",
+        "RabbitMQ",
+        "Docker",
+        "TDD",
+        "DDD",
+        "CI/CD",
+      ],
+    },
   ],
   links: [
     {
@@ -233,8 +288,8 @@ export const curriculum: Curriculum = {
     },
     {
       id: "github",
-      title: "Github",
-      description: "Personal Github page",
+      title: "GitHub",
+      description: "Personal GitHub page",
       href: "https://github.com/fabiomaffioletti",
     },
     {
@@ -245,7 +300,17 @@ export const curriculum: Curriculum = {
     },
   ],
   additionalInfo: [
-    "Languages: Italian (native), English (fluent)",
-    "Avid reader. Amateur photographer and cook. Sommelier. Guitar player.",
+    { id: "based-in", label: "Based in", value: "Milan, Italy" },
+    {
+      id: "languages",
+      label: "Languages",
+      value: "Italian (native), English (fluent)",
+    },
+    {
+      id: "outside-work",
+      label: "Outside work",
+      value:
+        "Avid reader. Amateur photographer and cook. Sommelier. Guitar player.",
+    },
   ],
 };

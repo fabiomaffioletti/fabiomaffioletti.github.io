@@ -12,6 +12,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 1,
     },
+    ...["engineering-leadership", "executive-coaching", "fractional-cto"].map(
+      (page) => ({
+        url: `${profile.siteUrl}/${page}/`,
+        lastModified: new Date(),
+        changeFrequency: "monthly" as const,
+        priority: 0.8,
+      }),
+    ),
     {
       url: `${profile.siteUrl}/projects/android/missplitty/privacy-policy/`,
       lastModified: new Date(),

@@ -46,29 +46,13 @@ try {
 if (home) {
   const content = [
     "Fabio Maffioletti",
-    "Summary",
-    "Professional experience",
-    "Head of Engineering",
-    "Tidio",
-    "Casavo Management Spa",
-    "eBay Inc",
-    "Skebby Mobile Solutions srl",
-    "Lumata / Buongiorno Spa",
-    "Vidiemme Consulting srl",
-    "Education and courses",
-    "Politecnico di Milano",
-    "Escuela Europea de Coaching",
-    "Remote-how",
-    "Certified Secure",
-    "Management and technical skills",
-    "System design, Java, Spring",
-    "Personal projects and links",
-    "JSONDoc",
-    "MissPlitty",
-    "Resources for EMs",
-    "Additional information",
-    "Languages: Italian (native), English (fluent)",
-    "Avid reader.",
+    "I help product companies build effective engineering teams",
+    "Three ways to work together",
+    "Engineering leadership",
+    "Executive coaching",
+    "Fractional CTO",
+    "Engineer first, leader and coach now",
+    "Let&#x27;s talk",
   ];
 
   for (const text of content) {
@@ -115,6 +99,56 @@ if (home) {
   }
 }
 
+const pages = [
+  [
+    "engineering-leadership/index.html",
+    [
+      "Summary",
+      "Experience",
+      "Head of Engineering",
+      "Tidio",
+      "Casavo Management Spa",
+      "eBay Inc",
+      "Skebby Mobile Solutions srl",
+      "Lumata / Buongiorno Spa",
+      "Vidiemme Consulting srl",
+      "Education and training",
+      "Politecnico di Milano",
+      "Escuela Europea de Coaching",
+      "Remote-how",
+      "Certified Secure",
+      "Skills",
+      "System design",
+      "Projects and links",
+      "JSONDoc",
+      "MissPlitty",
+      "Resources for EMs",
+      "Beyond the CV",
+      "Italian (native), English (fluent)",
+      "Avid reader.",
+    ],
+  ],
+  [
+    "executive-coaching/index.html",
+    ["Executive Coaching", "You might be here because", "What to expect", "How it works", "Pricing", "€150"],
+  ],
+  [
+    "fractional-cto/index.html",
+    ["Fractional CTO", "What a fractional CTO does", "Why startups and scale-ups use one", "How it works"],
+  ],
+];
+
+for (const [page, texts] of pages) {
+  const present = await exists(page);
+  check(`${page} is exported`, present);
+  if (!present) continue;
+  const html = await readOutput(page);
+  for (const text of texts) {
+    check(`${page} contains "${text}"`, html.includes(text));
+  }
+  check(`${page} has a canonical URL`, /<link rel="canonical" href="[^"]+"/.test(html));
+}
+
 try {
   const staticDir = path.join(out, "_next/static");
   const files = (await readdir(staticDir, { recursive: true }))
@@ -140,6 +174,12 @@ if (await exists("sitemap.xml")) {
     "sitemap lists the home page",
     sitemap.includes("https://www.fabiomaffioletti.me/"),
   );
+  for (const page of ["engineering-leadership", "executive-coaching", "fractional-cto"]) {
+    check(
+      `sitemap lists the ${page} page`,
+      sitemap.includes(`https://www.fabiomaffioletti.me/${page}/`),
+    );
+  }
   check(
     "sitemap lists the privacy page",
     sitemap.includes(

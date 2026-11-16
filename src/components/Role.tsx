@@ -6,17 +6,18 @@ interface RoleProps {
 
 export default function Role({ role }: RoleProps) {
   return (
-    <article className="mt-5">
-      <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
-        <h4>{role.name}</h4>
-        <h4 className="sm:text-right">
-          {role.from} - {role.to}
-        </h4>
-      </div>
-
-      <ul className="mt-3 list-disc space-y-2 pl-5 leading-relaxed">
+    <article className="not-first:mt-10">
+      <header className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+        <h4 className="m-0 font-body text-[1.15rem] font-semibold">{role.name}</h4>
+        <p className="m-0 text-[.95rem] text-muted">
+          {role.from} – {role.to}
+        </p>
+      </header>
+      <ul className="mt-4 list-disc pl-[1.1rem] text-muted">
         {role.description.map((item) => (
-          <li key={item}>{item}</li>
+          <li key={item} className="mb-[.55rem] marker:text-line-strong">
+            {item}
+          </li>
         ))}
       </ul>
     </article>
