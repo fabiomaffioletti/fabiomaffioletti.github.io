@@ -4,6 +4,14 @@ import SiteNav from "@/components/SiteNav";
 import Hero from "@/components/Hero";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+import {
+  CardGrid,
+  Comparison,
+  Section,
+  Steps,
+  buttonStyles,
+  type Card,
+} from "@/components/ui";
 
 import { profile } from "@/data/profile";
 
@@ -19,7 +27,7 @@ export const metadata: Metadata = {
   twitter: { title, description },
 };
 
-const situations = [
+const situations: Card[] = [
   ["You lost your job, or you're afraid you will", "We look at what you're good at, what the market pays for now, and build a plan you believe in."],
   ["You're good at your job, but not sure it has a future", "We work out which of your skills travel, and which new ones are worth the effort."],
   ["You became a manager and nobody showed you how", "Feedback, hiring, conflict, delegation: the parts of the job nobody trains you for."],
@@ -28,18 +36,43 @@ const situations = [
   ["Your CV and LinkedIn profile aren't getting you interviews", "We review both together, so they show what you're good at and the role you're looking for."],
 ];
 
-const expectations = [
+const expectations: Card[] = [
   ["We work as equals", "I listen, ask questions and tell you what I see. You do most of the thinking, and the answers come from you."],
   ["Progress happens between sessions too", "When it helps, you leave with something to try at work, something to read or a question to sit with until we meet again."],
   ["You'll be stretched, never judged", "Some sessions will push you out of your comfort zone. Nothing you bring will be judged."],
   ["You stay in control", "You choose what we work on and can stop whenever you want."],
 ];
 
-const steps = [
+const steps: Card[] = [
   ["A first conversation", "A free first hour to see if we're a good fit. No commitment."],
   ["Your goal", "We agree on what you want to change and how we'll measure it."],
   ["Sessions", "Video sessions every 2, 3 or 4 weeks, each ending with concrete next steps."],
   ["In between", "You act, I'm reachable by message when something comes up."],
+];
+
+const plans = [
+  {
+    name: "First session",
+    price: "Free",
+    description: "One hour to talk about where you are and see if we're a good fit.",
+    items: ["1 hour, by video", "No commitment", "A first look at your goal"],
+    action: "Book your free session",
+    featured: false,
+  },
+  {
+    name: "Sessions",
+    badge: "Coaching path",
+    price: "€150",
+    unit: "per session",
+    description: "A path of 6 to 10 one-hour sessions, every 2, 3 or 4 weeks.",
+    items: [
+      "1 hour, by video",
+      "Concrete next steps after every session",
+      "Reachable by message in between",
+    ],
+    action: "Get in touch",
+    featured: true,
+  },
 ];
 
 export default function ExecutiveCoaching() {
@@ -52,132 +85,105 @@ export default function ExecutiveCoaching() {
           sub="1:1 coaching for software engineers, engineering managers and executives, technical or not, working out what comes next in a market that AI keeps rewriting"
           actions={
             <>
-              <a className="btn solid" href="#contact">
+              <a className={buttonStyles.solid} href="#contact">
                 Book a session
               </a>
-              <a className="btn ghost" href="#how">
+              <a className={buttonStyles.ghost} href="#how">
                 How it works
               </a>
-              <a className="btn ghost" href="#pricing">
+              <a className={buttonStyles.ghost} href="#pricing">
                 Pricing
               </a>
             </>
           }
         />
 
-        <section className="section">
-          <h2>You might be here because</h2>
-          <div className="situations">
-            {situations.map(([heading, text]) => (
-              <div key={heading} className="situation">
-                <h3>{heading}</h3>
-                <p>{text}</p>
-              </div>
+        <Section title="You might be here because">
+          <CardGrid cards={situations} />
+        </Section>
+
+        <Section
+          title="Why a human coach, when AI can do so much?"
+          intro="AI tools are good at structure and reminders. The decisions that change a career need something else."
+        >
+          <Comparison
+            left={{
+              title: "What an AI tool gives you",
+              items: [
+                "Frameworks and templates",
+                "Accountability nudges",
+                "Answers to the question you asked",
+              ],
+            }}
+            right={{
+              title: "What I bring to the room",
+              items: [
+                "Someone who has hired, promoted and let people go",
+                "A read on the politics of your organisation",
+                "Noticing what you're not saying",
+              ],
+            }}
+          />
+        </Section>
+
+        <Section id="expect" title="What to expect" intro="A few things worth knowing before we start.">
+          <CardGrid cards={expectations} />
+        </Section>
+
+        <Section
+          id="how"
+          title="How it works"
+          intro="A coaching path is typically made of 6 to 10 sessions of one hour each."
+        >
+          <Steps steps={steps} />
+        </Section>
+
+        <Section
+          id="pricing"
+          title="Pricing"
+          intro="Start with a free hour. If we decide to work together, you pay per session."
+        >
+          <div className="mt-12 grid max-w-[60rem] gap-5 desktop:grid-cols-2">
+            {plans.map((plan) => (
+              <article
+                key={plan.name}
+                className={`relative flex flex-col rounded-2xl border p-8 ${plan.featured ? "border-accent bg-panel-2" : "border-line bg-panel"}`}
+              >
+                {plan.badge && (
+                  <p className="absolute top-[1.6rem] right-[1.6rem] m-0 rounded-full bg-accent px-[.7rem] py-[.2rem] text-[.85rem] font-medium text-on-accent">
+                    {plan.badge}
+                  </p>
+                )}
+                <h3 className="m-0 font-body text-[1.15rem] font-semibold tracking-normal">
+                  {plan.name}
+                </h3>
+                <p className="mt-5 flex items-baseline gap-2">
+                  <strong className="font-display text-[clamp(2.6rem,4vw,3.4rem)] leading-none font-medium tracking-display">
+                    {plan.price}
+                  </strong>
+                  {plan.unit && <span className="text-muted">{plan.unit}</span>}
+                </p>
+                <p className="mt-4 text-muted">{plan.description}</p>
+                <ul className="mt-6 mb-8 border-t border-line">
+                  {plan.items.map((item) => (
+                    <li
+                      key={item}
+                      className="relative border-b border-line py-2.5 pl-[1.6rem] before:absolute before:top-[1.05rem] before:left-[.2rem] before:h-[.4rem] before:w-[.7rem] before:-rotate-45 before:border-b-2 before:border-l-2 before:border-accent-soft before:content-['']"
+                    >
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                <a
+                  className={`${plan.featured ? buttonStyles.solid : buttonStyles.ghost} mt-auto`}
+                  href="#contact"
+                >
+                  {plan.action}
+                </a>
+              </article>
             ))}
           </div>
-        </section>
-
-        <section className="section">
-          <h2>Why a human coach, when AI can do so much?</h2>
-          <p className="intro">
-            AI tools are good at structure and reminders. The decisions that
-            change a career need something else.
-          </p>
-          <div className="human">
-            <div>
-              <h3>What an AI tool gives you</h3>
-              <ul>
-                <li>Frameworks and templates</li>
-                <li>Accountability nudges</li>
-                <li>Answers to the question you asked</li>
-              </ul>
-            </div>
-            <div>
-              <h3>What I bring to the room</h3>
-              <ul>
-                <li>Someone who has hired, promoted and let people go</li>
-                <li>A read on the politics of your organisation</li>
-                <li>Noticing what you&apos;re not saying</li>
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        <section className="section" id="expect">
-          <h2>What to expect</h2>
-          <p className="intro">A few things worth knowing before we start.</p>
-          <div className="situations">
-            {expectations.map(([heading, text]) => (
-              <div key={heading} className="situation">
-                <h3>{heading}</h3>
-                <p>{text}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section className="section" id="how">
-          <h2>How it works</h2>
-          <p className="intro">
-            A coaching path is typically made of 6 to 10 sessions of one hour
-            each.
-          </p>
-          <ol className="steps">
-            {steps.map(([heading, text]) => (
-              <li key={heading}>
-                <h3>{heading}</h3>
-                <p>{text}</p>
-              </li>
-            ))}
-          </ol>
-        </section>
-
-        <section className="section" id="pricing">
-          <h2>Pricing</h2>
-          <p className="intro">
-            Start with a free hour. If we decide to work together, you pay per
-            session.
-          </p>
-          <div className="pricing">
-            <article className="plan">
-              <h3>First session</h3>
-              <p className="price">
-                <strong>Free</strong>
-              </p>
-              <p className="plan-desc">
-                One hour to talk about where you are and see if we&apos;re a
-                good fit.
-              </p>
-              <ul>
-                <li>1 hour, by video</li>
-                <li>No commitment</li>
-                <li>A first look at your goal</li>
-              </ul>
-              <a className="btn ghost" href="#contact">
-                Book your free session
-              </a>
-            </article>
-            <article className="plan featured">
-              <p className="badge">Coaching path</p>
-              <h3>Sessions</h3>
-              <p className="price">
-                <strong>€150</strong>
-                <span>per session</span>
-              </p>
-              <p className="plan-desc">
-                A path of 6 to 10 one-hour sessions, every 2, 3 or 4 weeks.
-              </p>
-              <ul>
-                <li>1 hour, by video</li>
-                <li>Concrete next steps after every session</li>
-                <li>Reachable by message in between</li>
-              </ul>
-              <a className="btn solid" href="#contact">
-                Get in touch
-              </a>
-            </article>
-          </div>
-        </section>
+        </Section>
 
         <Contact
           title="Start with a conversation"

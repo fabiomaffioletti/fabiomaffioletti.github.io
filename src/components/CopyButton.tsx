@@ -20,7 +20,11 @@ export default function CopyButton({ text }: CopyButtonProps) {
   }
 
   return (
-    <button type="button" onClick={copy}>
+    <button
+      type="button"
+      onClick={copy}
+      className="cursor-pointer rounded-lg bg-accent px-4 py-[.45rem] text-[.9rem] text-on-accent"
+    >
       {label}
     </button>
   );

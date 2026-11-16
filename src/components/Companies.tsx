@@ -1,4 +1,5 @@
 import Company from "./Company";
+import { Section } from "./ui";
 import type { Company as CompanyType } from "@/data/curriculum";
 
 interface CompaniesProps {
@@ -7,11 +8,10 @@ interface CompaniesProps {
 
 export default function Companies({ companies }: CompaniesProps) {
   return (
-    <section className="section cv" id="experience">
-      <h2>Experience</h2>
+    <Section id="experience" title="Experience" ruled>
       {companies.map((company) => (
         <Company key={company.id} company={company} />
       ))}
-    </section>
+    </Section>
   );
 }
