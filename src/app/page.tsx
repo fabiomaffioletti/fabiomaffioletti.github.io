@@ -64,7 +64,7 @@ const services = [
       "CV and LinkedIn profile review",
     ],
     href: "/executive-coaching/",
-    link: "Book a session",
+    link: "Explore and book a session",
   },
   {
     audience: "For startups and scale-ups",
@@ -77,7 +77,7 @@ const services = [
       "Effective AI adoption",
     ],
     href: "/fractional-cto/",
-    link: "How I can help your company",
+    link: "Know more and hire me",
   },
 ];
 
