@@ -77,7 +77,7 @@ const services = [
       "Effective AI adoption",
     ],
     href: "/fractional-cto/",
-    link: "Know more and hire me",
+    link: "Learn more and hire me",
   },
 ];
 
